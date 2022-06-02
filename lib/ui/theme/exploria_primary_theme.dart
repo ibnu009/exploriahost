@@ -4,8 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 const String poppins = 'Poppins';
 double defaultMargin = 30.0;
 
-class ExploriaTheme {
+Map<int, Color> color =
+{
+  50:Color.fromRGBO(30,194,139, .1),
+  100:Color.fromRGBO(30,194,139, .2),
+  200:Color.fromRGBO(30,194,139, .3),
+  300:Color.fromRGBO(30,194,139, .4),
+  400:Color.fromRGBO(30,194,139, .5),
+  500:Color.fromRGBO(30,194,139, .6),
+  600:Color.fromRGBO(30,194,139, .7),
+  700:Color.fromRGBO(30,194,139, .8),
+  800:Color.fromRGBO(30,194,139, .9),
+  900:Color.fromRGBO(30,194,139, 1),
+};
+MaterialColor primaryThemeColor = MaterialColor(0xFF1EC28B, color);
 
+class ExploriaTheme {
   static const Color primaryColor = Color(0xFF1EC28B);
   static const Color primaryColorLighter = Color(0xFF3DF1B8);
   static const Color primaryColorDarker = Color(0xFF0B7B5B);
@@ -40,11 +54,8 @@ class ExploriaTheme {
     fontSize: 24,
   );
 
-  static TextStyle get text => GoogleFonts.getFont(poppins,
-      color: ExploriaTheme.greydark, fontWeight: FontWeight.w400, fontSize: 16);
-
   static TextStyle get bodyText => GoogleFonts.getFont(poppins,
-      color: ExploriaTheme.greydark, fontWeight: FontWeight.w400, fontSize: 16);
+      color: ExploriaTheme.greydark, fontWeight: FontWeight.w400, fontSize: 14);
 
   static TextStyle get title1 => GoogleFonts.getFont(
     poppins,

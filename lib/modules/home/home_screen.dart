@@ -3,6 +3,7 @@ import 'package:exploriahost/modules/home/widget/build_home_menu.dart';
 import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class BuildHomeHeader extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (c) => const ProfileScreen(),),);
+                CupertinoPageRoute(builder: (c) => const ProfileScreen(),),);
             },
             child: const Padding(
               padding: EdgeInsets.only(left: 16),

@@ -1,5 +1,5 @@
 import 'package:exploriahost/modules/home/home_screen.dart';
-import 'package:exploriahost/modules/splash/splash_screen.dart';
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: primaryThemeColor,
       ),
       home: const HomeScreen(),
     );
