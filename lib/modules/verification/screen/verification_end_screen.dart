@@ -1,12 +1,12 @@
-import 'package:exploriahost/modules/verification/screen/verification_second_screen.dart';
+import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class VerificationStartScreen extends StatelessWidget {
-  const VerificationStartScreen({Key? key}) : super(key: key);
+class VerificationEndScreen extends StatelessWidget {
+  const VerificationEndScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,13 @@ class VerificationStartScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 16,
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: SvgPicture.asset('assets/img_verification_complete.svg'),
           ),
           const Text(
-            "Verifikasi Akun",
+            "Verifikasi Kamu Sedang Diproses",
             style: TextStyle(
                 color: ExploriaTheme.primaryColor,
                 fontSize: 22,
@@ -40,29 +42,30 @@ class VerificationStartScreen extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Text(
-              "Verifikasi akun kamu agar dapat menambahkan Experience dan dipercaya Adventurer",
-              style: ExploriaTheme.bodyText,
-              textAlign: TextAlign.center),
-          const SizedBox(
-            height: 16,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+                "Harap tunggu tim kami melakukan verifikasi terkait dengan akun anda. Kami akan melakukan panggilan telepon atau Whatsapp video call",
+                style: ExploriaTheme.bodyText,
+                textAlign: TextAlign.center),
           ),
-          SvgPicture.asset('assets/img_verification.svg'),
-          const SizedBox(
-            height: 16,
-          ),
+          const Spacer(),
           exploriaPrimaryButton(
               context: context,
-              text: 'Mulai Verifikasi',
+              text: 'Kembali Ke Pengaturan Akun',
               isEnabled: true,
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   CupertinoPageRoute(
-                    builder: (c) => const VerificationSecondScreen(),
+                    builder: (c) => const ProfileScreen(),
                   ),
+                  (route) => false,
                 );
-              })
+              }),
+          const SizedBox(
+            height: 16,
+          ),
         ],
       ),
     );
