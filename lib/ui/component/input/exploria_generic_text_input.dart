@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class VerificationTextInput extends StatelessWidget {
+class ExploriaGenericTextInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType inputType;
   final int? maxLines;
   final String? hintText;
-  const VerificationTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType}) : super(key: key);
+  const ExploriaGenericTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

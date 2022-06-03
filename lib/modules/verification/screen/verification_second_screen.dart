@@ -1,6 +1,6 @@
 import 'package:exploriahost/modules/verification/screen/verification_address_screen.dart';
-import 'package:exploriahost/modules/verification/widget/verification_text_input.dart';
-import 'package:exploriahost/modules/verification/widget/verification_text_input_hint.dart';
+import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,24 +55,24 @@ class _VerificationSecondScreenState extends State<VerificationSecondScreen> {
                   style: ExploriaTheme.bodyText,
                 ),
               ),
-              const VerificationTextInputHint(text: "Nama Lengkap*"),
-              VerificationTextInput(
+              const ExploriaGenericTextInputHint(text: "Nama Lengkap*"),
+              ExploriaGenericTextInput(
                   controller: _nameController,
                   inputType: TextInputType.text,
                   maxLines: 1),
-              const VerificationTextInputHint(text: "Headline*"),
-              VerificationTextInput(
+              const ExploriaGenericTextInputHint(text: "Headline*"),
+              ExploriaGenericTextInput(
                   controller: _headlineController,
                   inputType: TextInputType.text,
                   maxLines: 1,
                   hintText: "Deksripsi singkat tentang dirimu"),
-              const VerificationTextInputHint(text: "Nomor Telfon Aktif*"),
-              VerificationTextInput(
+              const ExploriaGenericTextInputHint(text: "Nomor Telfon Aktif*"),
+              ExploriaGenericTextInput(
                   controller: _phoneController,
                   inputType: TextInputType.number,
                   maxLines: 1),
-              const VerificationTextInputHint(text: "Deskripsi*"),
-              VerificationTextInput(
+              const ExploriaGenericTextInputHint(text: "Deskripsi*"),
+              ExploriaGenericTextInput(
                   controller: _descriptionController,
                   inputType: TextInputType.text,
                   maxLines: 5,

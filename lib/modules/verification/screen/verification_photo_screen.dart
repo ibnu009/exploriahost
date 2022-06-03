@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:exploriahost/modules/verification/screen/verification_end_screen.dart';
-import 'package:exploriahost/modules/verification/widget/verification_text_input_hint.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_choose_image.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
@@ -46,7 +46,7 @@ class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
           children: [
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0),
-              child: VerificationTextInputHint(
+              child: ExploriaGenericTextInputHint(
                 text: "Foto diri kamu",
               ),
             ),

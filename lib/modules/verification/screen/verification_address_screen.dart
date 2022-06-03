@@ -1,6 +1,6 @@
 import 'package:exploriahost/modules/verification/screen/verification_photo_screen.dart';
-import 'package:exploriahost/modules/verification/widget/verification_text_input.dart';
-import 'package:exploriahost/modules/verification/widget/verification_text_input_hint.dart';
+import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,31 +55,31 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
                   style: ExploriaTheme.bodyText,
                 ),
               ),
-              const VerificationTextInputHint(
+              const ExploriaGenericTextInputHint(
                 text: "Provinsi*",
               ),
-              VerificationTextInput(
+              ExploriaGenericTextInput(
                   controller: _provinceController,
                   inputType: TextInputType.text,
                   maxLines: 1),
-              const VerificationTextInputHint(
+              const ExploriaGenericTextInputHint(
                 text: "Kabupaten/Kota*",
               ),
-              VerificationTextInput(
+              ExploriaGenericTextInput(
                   controller: _cityController,
                   inputType: TextInputType.text,
                   maxLines: 1),
-              const VerificationTextInputHint(
+              const ExploriaGenericTextInputHint(
                 text: "Kode Pos*",
               ),
-              VerificationTextInput(
+              ExploriaGenericTextInput(
                   controller: _kodePosController,
                   inputType: TextInputType.number,
                   maxLines: 1),
-              const VerificationTextInputHint(
+              const ExploriaGenericTextInputHint(
                 text: "Alamat*",
               ),
-              VerificationTextInput(
+              ExploriaGenericTextInput(
                 controller: _addressController,
                 inputType: TextInputType.text,
                 maxLines: 5,

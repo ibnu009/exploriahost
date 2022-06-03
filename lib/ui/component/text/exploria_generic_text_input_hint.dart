@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class VerificationTextInputHint extends StatelessWidget {
+class ExploriaGenericTextInputHint extends StatelessWidget {
   final String text;
-  const VerificationTextInputHint({Key? key, required this.text}) : super(key: key);
+  const ExploriaGenericTextInputHint({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
