@@ -3,6 +3,7 @@ import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FeedbackVerificationscreen extends StatefulWidget {
   const FeedbackVerificationscreen({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _FeedbackVerificationscreenState extends State<FeedbackVerificationscreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/ic_verification_success.png'),
+              SvgPicture.asset('assets/ic_verification_success.svg'),
               SizedBox(height: 39.0,),
               Text(
                 'Verifikasi Berhasil',
