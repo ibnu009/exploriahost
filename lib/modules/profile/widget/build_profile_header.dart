@@ -1,4 +1,6 @@
+import 'package:exploriahost/modules/profile/screen/edit_profile_start_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildProfileHeader extends StatelessWidget {
@@ -34,10 +36,15 @@ class BuildProfileHeader extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-              child: Icon(Icons.edit,
-                  color: Colors.white),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, CupertinoPageRoute(builder: (c) => const EditProfileStartScreen()));
+              },
+              child: const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                child: Icon(Icons.edit,
+                    color: Colors.white),
+              ),
             ),
           ],
         ),
