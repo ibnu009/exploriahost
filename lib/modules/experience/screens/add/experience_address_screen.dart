@@ -1,26 +1,27 @@
-import 'package:exploriahost/modules/verification/screen/verification_photo_screen.dart';
+import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
+import 'package:exploriahost/ui/component/dropdown/exploria_generic_dropdown.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
-import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class VerificationAddresscreen extends StatefulWidget {
-  const VerificationAddresscreen({Key? key}) : super(key: key);
+class ExperienceAddresscreen extends StatefulWidget {
+  const ExperienceAddresscreen({Key? key}) : super(key: key);
 
   @override
-  _VerificationAddresscreenState createState() =>
-      _VerificationAddresscreenState();
+  _ExperienceAddresscreenState createState() => _ExperienceAddresscreenState();
 }
 
-class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
+class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _provinceController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
   final TextEditingController _kodePosController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  String _selectedItemProvince = initialProvinceItem;
+  String _selectedItemCity = initialCityItem;
 
   @override
   Widget build(BuildContext context) {
@@ -58,17 +59,25 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
               const ExploriaGenericTextInputHint(
                 text: "Provinsi*",
               ),
-              ExploriaGenericTextInput(
-                  controller: _provinceController,
-                  inputType: TextInputType.text,
-                  maxLines: 1),
+              ExploriaGenericDropdown(
+                  selectedItem: _selectedItemProvince,
+                  items: provinceItems,
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      _selectedItemProvince = newVal ?? "";
+                    });
+                  }),
               const ExploriaGenericTextInputHint(
                 text: "Kabupaten/Kota*",
               ),
-              ExploriaGenericTextInput(
-                  controller: _cityController,
-                  inputType: TextInputType.text,
-                  maxLines: 1),
+              ExploriaGenericDropdown(
+                  selectedItem: _selectedItemCity,
+                  items: cityItems,
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      _selectedItemCity = newVal ?? "";
+                    });
+                  }),
               const ExploriaGenericTextInputHint(
                 text: "Kode Pos*",
               ),
@@ -77,7 +86,7 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
                   inputType: TextInputType.number,
                   maxLines: 1),
               const ExploriaGenericTextInputHint(
-                text: "Alamat*",
+                text: "Alamat Lengkap*",
               ),
               ExploriaGenericTextInput(
                 controller: _addressController,
@@ -98,7 +107,7 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (c) => const VerificationPhotoScreen(),
+                          builder: (c) => const HomeScreen(),
                         ),
                       );
                     }

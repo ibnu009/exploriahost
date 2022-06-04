@@ -1,4 +1,6 @@
 import 'package:exploriahost/modules/verification/screen/verification_address_screen.dart';
+import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,15 +55,28 @@ class _VerificationSecondScreenState extends State<VerificationSecondScreen> {
                   style: ExploriaTheme.bodyText,
                 ),
               ),
-              _buildTextInputHint("Nama Lengkap*"),
-              _buildTextInput(_nameController, 1, null),
-              _buildTextInputHint("Headline*"),
-              _buildTextInput(
-                  _headlineController, 1, "Deksripsi singkat tentang dirimu"),
-              _buildTextInputHint("Nomor Telfon Aktif*"),
-              _buildTextNumberInput(_phoneController, 1, null),
-              _buildTextInputHint("Deskripsi*"),
-              _buildTextInput(_descriptionController, 5, "Deksripsikan dirimu"),
+              const ExploriaGenericTextInputHint(text: "Nama Lengkap*"),
+              ExploriaGenericTextInput(
+                  controller: _nameController,
+                  inputType: TextInputType.text,
+                  maxLines: 1),
+              const ExploriaGenericTextInputHint(text: "Headline*"),
+              ExploriaGenericTextInput(
+                  controller: _headlineController,
+                  inputType: TextInputType.text,
+                  maxLines: 1,
+                  hintText: "Deksripsi singkat tentang dirimu"),
+              const ExploriaGenericTextInputHint(text: "Nomor Telfon Aktif*"),
+              ExploriaGenericTextInput(
+                  controller: _phoneController,
+                  inputType: TextInputType.number,
+                  maxLines: 1),
+              const ExploriaGenericTextInputHint(text: "Deskripsi*"),
+              ExploriaGenericTextInput(
+                  controller: _descriptionController,
+                  inputType: TextInputType.text,
+                  maxLines: 5,
+                  hintText: "Deksripsikan dirimu"),
               const SizedBox(
                 height: 24,
               ),
@@ -84,74 +99,6 @@ class _VerificationSecondScreenState extends State<VerificationSecondScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-
-  Widget _buildTextInput(
-      TextEditingController? controller, int maxLines, String? hintText) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-      child: TextFormField(
-        showCursor: true,
-        controller: controller,
-        keyboardType: TextInputType.text,
-        validator: (value) =>
-        value == null || value.isEmpty ? "Field ini tidak boleh kosong" : null,
-        maxLines: maxLines,
-        cursorColor: Colors.black45,
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.black45,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 16, color: Colors.grey),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextNumberInput(
-      TextEditingController? controller, int maxLines, String? hintText) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-      child: TextFormField(
-        showCursor: true,
-        controller: controller,
-        keyboardType: TextInputType.number,
-        maxLines: maxLines,
-        cursorColor: Colors.black45,
-        validator: (value) =>
-        value == null || value.isEmpty ? "Field ini tidak boleh kosong" : null,
-        decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.black45,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 16, color: Colors.grey),
         ),
       ),
     );

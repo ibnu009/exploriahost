@@ -1,3 +1,5 @@
+import 'package:exploriahost/modules/experience/screens/etalase_experience_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,7 +14,14 @@ class BuildHomeMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildButtonMenu(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (c) => const EtalaseExperienceScreen(),
+                  ),
+                );
+              },
               text: 'Etalase Experience',
               assetPath: 'assets/ic_experience.svg',
               context: context),
