@@ -15,7 +15,7 @@ class VerificationEndScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          "Mulai Verifikasi",
+          "Selesai",
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
         leading: InkWell(

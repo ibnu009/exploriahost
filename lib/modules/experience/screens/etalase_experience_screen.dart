@@ -1,6 +1,7 @@
 import 'package:exploriahost/modules/experience/screens/add/add_experience_screen.dart';
 import 'package:exploriahost/modules/experience/widgets/etalase_experience_tab.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -54,7 +55,7 @@ class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                       builder: (context) => const AddExperienceScreen()),
                 );
               },

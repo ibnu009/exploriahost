@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:exploriahost/modules/verification/screen/verification_end_screen.dart';
+import 'package:exploriahost/modules/experience/screens/add/other_experience_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_choose_image.dart';
+import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
+import 'package:exploriahost/ui/component/dropdown/exploria_generic_dropdown.dart';
 import 'package:exploriahost/ui/component/image/image_full_screen.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
@@ -19,11 +21,13 @@ class AddExperienceScreen extends StatefulWidget {
 }
 
 class _AddExperienceScreenState extends State<AddExperienceScreen> {
-  final TextEditingController _experienceNameController = TextEditingController();
+  final TextEditingController _experienceNameController =
+      TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _hourController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
+  String _selectedItem = initialCategoryExperienceItem;
 
   List<File> images = [];
   final picker = ImagePicker();
@@ -70,16 +74,31 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
                   inputType: TextInputType.text,
                   maxLines: 1),
               const Padding(
+                padding: EdgeInsets.only(top: 8.0, bottom: 6),
+                child: ExploriaGenericTextInputHint(
+                  text: "Kategori*",
+                ),
+              ),
+              ExploriaGenericDropdown(
+                  selectedItem: _selectedItem,
+                  items: categoryExperienceItems,
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      _selectedItem = newVal ?? "";
+                    });
+                  }),
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: ExploriaGenericTextInputHint(
                   text: "Harga Perorangan*",
                 ),
               ),
               ExploriaGenericTextInput(
-                  controller: _priceController,
-                  inputType: TextInputType.number,
-                  maxLines: 1, hintText: 'Rp 100.000',),
-
+                controller: _priceController,
+                inputType: TextInputType.number,
+                maxLines: 1,
+                hintText: 'Rp 100.000',
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: ExploriaGenericTextInputHint(
@@ -89,8 +108,9 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
               ExploriaGenericTextInput(
                 controller: _hourController,
                 inputType: TextInputType.number,
-                maxLines: 1, hintText: '24 Jam',),
-
+                maxLines: 1,
+                hintText: '24 Jam',
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: ExploriaGenericTextInputHint(
@@ -111,7 +131,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (c) => const VerificationEndScreen(),
+                        builder: (c) => const OtherExperienceScreen(),
                       ),
                     );
                   }),

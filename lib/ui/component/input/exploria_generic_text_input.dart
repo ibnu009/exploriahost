@@ -5,7 +5,8 @@ class ExploriaGenericTextInput extends StatelessWidget {
   final TextInputType inputType;
   final int? maxLines;
   final String? hintText;
-  const ExploriaGenericTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType}) : super(key: key);
+  final Function(String)? onSubmitted;
+  const ExploriaGenericTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType, this.onSubmitted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class ExploriaGenericTextInput extends StatelessWidget {
         controller: controller,
         keyboardType: inputType,
         maxLines: maxLines,
+        onFieldSubmitted: onSubmitted,
         cursorColor: Colors.black45,
         validator: (value) =>
         value == null || value.isEmpty ? "Field ini tidak boleh kosong" : null,
