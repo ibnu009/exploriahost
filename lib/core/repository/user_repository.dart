@@ -2,6 +2,7 @@
 import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/core/network/response/auth/LoginResponse.dart';
 import 'package:exploriahost/core/network/response/auth/RegisterResponse.dart';
+import 'package:exploriahost/utils/string_ext.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserRepository extends NetworkService {
@@ -17,33 +18,44 @@ class UserRepository extends NetworkService {
 
   Map<String, String> header = {};
   final String contentType = "Content-Type";
-  final String applicationJson = "application/json; charset=UTF-8";
+  final String applicationJson = "application/json";
   final String token = "token";
 
   Future<LoginResponse> submitLogin(String email, String password) async {
+
+    String hashedPassword = password.convertToSha256();
+    print('normal password is $password' );
+    print('hashed password is $hashedPassword');
+
     var header = {contentType: applicationJson};
     var body = {
       'email': email,
-      'password': password
+      'password': hashedPassword
     };
-    var map = await postMethod("$BASE_URL/api/login",
+    var map = await postMethod("$BASE_URL/api/host/login",
         body: body, headers: header);
     return LoginResponse.fromJson(map);
   }
 
-  Future<RegisterResponse> submitRegister(Map<String, Object> body) async {
+  Future<RegisterResponse> submitRegister(String name, String email, String password) async {
+
+    String hashedPassword = password.convertToSha256();
+    print('normal password is $password' );
+    print('hashed password is $hashedPassword');
+
+    Map<String, Object> body = {
+      'full_name': name,
+      'email': email,
+      'password': hashedPassword
+    };
+
     var header = {contentType: applicationJson};
-    var map = await postMethod("$BASE_URL/api/register",
+    var map = await postMethod("$BASE_URL/api/host/register",
         body: body, headers: header);
     return RegisterResponse.fromJson(map);
   }
 
-  Object readSecureData(String key) {
-    var readData = storage.read(key: key);
-    return readData;
-  }
-
-  Object readProfileData(String key) {
+  Future<String?> readSecureData(String key) {
     var readData = storage.read(key: key);
     return readData;
   }

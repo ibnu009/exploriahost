@@ -1,4 +1,4 @@
-import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/modules/splash/splash_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: primaryThemeColor,
       ),
-      home: const HomeScreen()
-    );
+        home: const SplashScreen());
   }
 }
 

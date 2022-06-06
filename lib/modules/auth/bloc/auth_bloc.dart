@@ -15,10 +15,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(ShowLoading());
       _delegate.onLoading();
       try {
-        var data = await _repository.submitRegister(event.map);
+        var data = await _repository.submitRegister(event.name, event.email, event.password);
         if (data.status == 200) {
           _delegate.onSuccess();
-        } else {
+        }
+         else {
           _delegate.onError("Terjadi kesalahan");
         }
       } catch (ex) {
@@ -33,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         var data = await _repository.submitLogin(event.email, event.password);
         if (data.status == 200) {
+          _repository.writeSecureTokenData(data.token ?? "");
           _delegate.onSuccess();
         } else {
           _delegate.onError("Terjadi kesalahan");

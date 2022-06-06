@@ -39,15 +39,17 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                  child: Image.asset(
-                    'assets/exploria.png',
-                    height: 120,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                    child: Image.asset(
+                      'assets/logoexploria.png',
+                      height: 80,
+                    ),
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  padding: EdgeInsets.fromLTRB(10, 32, 10, 0),
                   child: Text(
                     'Masuk',
                     style: TextStyle(
@@ -81,8 +83,6 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
                     _loginUser();
                   },
                 ),
-                _buildDivider(),
-                _buildOtherLoginMethodsSection(),
                 const SizedBox(
                   height: 18,
                 ),
@@ -115,38 +115,6 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildOtherLoginMethodsSection() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            splashColor: Colors.grey[700],
-            onTap: () {},
-            child: Image.asset(
-              'assets/g.png',
-              height: 60,
-              width: 60,
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          InkWell(
-            splashColor: Colors.grey[700],
-            onTap: () {},
-            child: Image.asset(
-              'assets/f.png',
-              height: 60,
-              width: 60,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -229,34 +197,6 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
     );
   }
 
-  Widget _buildDivider() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: Row(children: <Widget>[
-        Expanded(
-          child: Container(
-              margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-              child: const Divider(
-                color: Colors.black54,
-                height: 36,
-              )),
-        ),
-        const Text(
-          "Atau",
-          style: TextStyle(fontWeight: FontWeight.w100),
-        ),
-        Expanded(
-          child: Container(
-              margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-              child: const Divider(
-                color: Colors.black54,
-                height: 36,
-              )),
-        ),
-      ]),
-    );
-  }
-
   Widget _buildTextInputHint(String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 15, 4),
@@ -276,7 +216,14 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
 
   @override
   void onError(String message) {
-    showFailedDialog(context: context, title: "Gagal Login", message: message);
+    showFailedDialog(
+        context: context,
+        title: "Gagal Login",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
   }
 
   @override
@@ -286,7 +233,6 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
         title: "Berhasil Login!",
         message: "Selamat datang di aplikasi Exploria",
         onTap: () {
-          print("SIAPPP");
           Navigator.pop(context);
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const HomeScreen()));
@@ -300,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> implements AuthDelegate {
 
   @override
   void dispose() {
-    super.dispose();
     _bloc.close();
+    super.dispose();
   }
 }

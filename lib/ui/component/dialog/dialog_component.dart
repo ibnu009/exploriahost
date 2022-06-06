@@ -22,13 +22,14 @@ void showLoadingDialog({required BuildContext context}) {
   );
 }
 
-void showFailedDialog({required BuildContext context, required String title, required String message}) {
+void showFailedDialog({required BuildContext context, required String title, required String message, VoidCallback? onTap}) {
   CoolAlert.show(
     context: context,
     type: CoolAlertType.error,
     title: title,
     text: message,
     loopAnimation: false,
+    onConfirmBtnTap: onTap
   );
 }
 

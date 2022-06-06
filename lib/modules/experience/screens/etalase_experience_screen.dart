@@ -16,6 +16,7 @@ class EtalaseExperienceScreen extends StatefulWidget {
 class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
     with SingleTickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
   late TabController tabController;
   int currTab = 0;
 
@@ -92,7 +93,7 @@ class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
                   controller: tabController,
                   tabs: [
                     _tabItem(0, "All"),
-                    _tabItem(1, "Verified"),
+                    _tabItem(1, "Accepted"),
                     _tabItem(2, "Pending"),
                     _tabItem(3, "Rejected")
                   ],
@@ -102,10 +103,10 @@ class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
                 child: TabBarView(
                   controller: tabController,
                   children: const [
-                    EtalaseExperienceTab(),
-                    EtalaseExperienceTab(),
-                    EtalaseExperienceTab(),
-                    EtalaseExperienceTab(),
+                    EtalaseExperienceTab(status: "all"),
+                    EtalaseExperienceTab(status: "accepted"),
+                    EtalaseExperienceTab(status: "pending"),
+                    EtalaseExperienceTab(status: "rejected"),
                   ],
                 ),
               ),

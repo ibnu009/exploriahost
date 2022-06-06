@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:exploriahost/core/repository/user_repository.dart';
 import 'package:exploriahost/modules/auth/login/screen/LoginScreen.dart';
+import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,19 +13,38 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late UserRepository _repository;
+  String userToken = "";
 
   startSplashScreen() async {
     var duration = const Duration(seconds: 2);
-    return Timer(duration, () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
-    });
+    return Timer(
+      duration,
+      () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              if (userToken.isEmpty) {
+                return const LoginScreen();
+              }
+              return const HomeScreen();
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override
   void initState() {
     super.initState();
+    _repository = UserRepository.instance;
+    _getUserToken();
     startSplashScreen();
+  }
+
+  Future<void> _getUserToken() async {
+    userToken = await _repository.readSecureData('token') ?? "";
   }
 
   @override
