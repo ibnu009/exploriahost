@@ -1,7 +1,10 @@
+import 'package:exploriahost/modules/profile/screen/edit_password_profile_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit_phone_profile_screen.dart';
 import 'package:exploriahost/modules/profile/widget/build_profile_header.dart';
 import 'package:exploriahost/modules/profile/widget/build_verification_card.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -50,11 +53,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               _buildSettingParentSection("Pengaturan Akun"),
               _buildDivider(),
-              _buildSettingSubSection("Ubah Nomor Telfon", () {}),
+              _buildSettingSubSection("Ubah Nomor Telfon", () {
+                Navigator.push(context, CupertinoPageRoute(builder: (c)=> EditPhoneProfile()));
+              }),
               _buildDivider(),
               _buildSettingSubSection("Ubah Alamat", () => null),
               _buildDivider(),
-              _buildSettingSubSection("Ubah Password", () => null),
+              _buildSettingSubSection("Ubah Password", () {
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
+              }),
               _buildDivider(),
               _buildSettingParentSection("Pengaturan Aplikasi"),
               _buildDivider(),
