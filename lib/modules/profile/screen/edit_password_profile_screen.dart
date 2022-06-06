@@ -1,5 +1,6 @@
 import 'package:exploriahost/modules/profile/screen/verification_OTP_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.0,),
-              _buildTextInputHint('Password Baru'),
+              ExploriaGenericTextInputHint(text: 'Password Baru'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
@@ -57,7 +58,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       hintStyle: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ),
               ),
-              _buildTextInputHint('Ulangi Password Baru'),
+              ExploriaGenericTextInputHint(text: 'Ulangi Password Baru'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
@@ -93,16 +94,6 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
               )
             ]
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

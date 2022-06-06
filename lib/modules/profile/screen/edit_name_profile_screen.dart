@@ -1,4 +1,7 @@
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
 class EditNameProfile extends StatefulWidget {
@@ -16,15 +19,15 @@ class _EditNameProfileState extends State<EditNameProfile> {
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          title: const Text(
-              "Data Nama",
-              style: TextStyle(color: Colors.white, fontSize: 14)
+          backgroundColor: Colors.white24,
+          title: Text( 'Data Nama',
+              style: ExploriaTheme.smallTitle
           ),
           leading: InkWell(
               onTap: () => Navigator.pop(context),
               child: const Icon(
                 Icons.arrow_back,
-                color: Colors.white,
+                color: ExploriaTheme.primaryColor,
               )
           ),
         ),
@@ -33,30 +36,10 @@ class _EditNameProfileState extends State<EditNameProfile> {
             children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(18, 20, 18, 15),
-                  child: Text('Harap menggunakan nama asli untuk memudahkan menjual Experience kamu.')
+                  child: Text('Harap menggunakan nama asli untuk memudahkan menjual Experience kamu.', style: ExploriaTheme.text1,)
               ),
-              _buildTextInputHint('Nama'),
-              Container(
-                height: 55.0,
-                padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
-                child: TextField(
-                  showCursor: true,
-                  controller: _nameController,
-                  keyboardType: TextInputType.name,
-                  cursorColor: Colors.black45,
-                  decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Colors.black45,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      hintStyle: const TextStyle(fontSize: 16, color: Colors.grey)),
-                ),
-              ),
+              ExploriaGenericTextInputHint(text: 'Nama'),
+              ExploriaGenericTextInput(controller: _nameController, inputType: TextInputType.name),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 9, vertical: 20.0),
                 child: exploriaPrimaryButton(
@@ -68,16 +51,6 @@ class _EditNameProfileState extends State<EditNameProfile> {
               )
             ]
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

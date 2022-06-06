@@ -26,3 +26,13 @@ List<String> cityItems = [
   'Bandung',
   'Jakarta Selatan',
 ];
+
+const String initialCategoryProblemItem = 'Bug';
+List<String> categoryProblemItems = [
+  'Bug',
+  'Poor Navigation',
+  'Unclear Content',
+  'Incomplate Onboarding',
+  'Unresponsive Gesturization',
+  'Different platforms and OS',
+];

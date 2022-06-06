@@ -1,4 +1,6 @@
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
 class EditJobProfile extends StatefulWidget {
@@ -34,9 +36,9 @@ class _EditJobProfileState extends State<EditJobProfile> {
             children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(18, 20, 18, 15),
-                  child: Text('Harap pekerjaan dengan benar untuk memudahkan menjual Experience kamu.')
+                  child: Text('Harap pekerjaan dengan benar untuk memudahkan menjual Experience kamu.', style: ExploriaTheme.text1,)
               ),
-              _buildTextInputHint('Posisi'),
+              ExploriaGenericTextInputHint(text: 'Posisi'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
@@ -58,7 +60,7 @@ class _EditJobProfileState extends State<EditJobProfile> {
                       hintStyle: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ),
               ),
-              _buildTextInputHint('Instansi atau Organisasi'),
+              ExploriaGenericTextInputHint(text: 'Instansi atau Organisasi'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
@@ -91,16 +93,6 @@ class _EditJobProfileState extends State<EditJobProfile> {
               )
             ]
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

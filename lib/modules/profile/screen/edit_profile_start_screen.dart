@@ -18,15 +18,16 @@ class _EditProfileStartScreenState extends State<EditProfileStartScreen> {
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          title: const Text(
+          backgroundColor: Colors.white24,
+          title: Text(
             "Data Diri",
-            style: TextStyle(color: Colors.white, fontSize: 14)
+            style: ExploriaTheme.smallTitle
           ),
             leading: InkWell(
                 onTap: () => Navigator.pop(context),
                 child: const Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: ExploriaTheme.primaryColor,
                 )
             ),
         ),
@@ -36,7 +37,7 @@ class _EditProfileStartScreenState extends State<EditProfileStartScreen> {
               Center(
                 child: Container(
                   padding: EdgeInsets.only(top: 20.0, bottom: 22.0),
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 50.0,
                     backgroundImage: NetworkImage('https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v15710620671/wwa6sd5wyp1wxjrder5i.png'),
                   ),
@@ -59,7 +60,7 @@ class _EditProfileStartScreenState extends State<EditProfileStartScreen> {
                               Navigator.push(context,
                               CupertinoPageRoute(builder: (c) => const EditNameProfile()));
                             },
-                              child: Text("Ubah", style: TextStyle(fontSize: 13, color: ExploriaTheme.primaryColor))),
+                              child: Text("Ubah", style: TextStyle(color: ExploriaTheme.primaryColor))),
                         ],
                       ),
                     ),
@@ -81,7 +82,7 @@ class _EditProfileStartScreenState extends State<EditProfileStartScreen> {
                                 onTap: (){
                                   Navigator.push(context, CupertinoPageRoute(builder: (c) => const EditJobProfile()));
                                 },
-                                child: Text("Ubah", style: TextStyle(fontSize: 13,color: ExploriaTheme.primaryColor))),
+                                child: Text("Ubah", style: TextStyle(color: ExploriaTheme.primaryColor))),
                           ],
                         ),
                       ),
