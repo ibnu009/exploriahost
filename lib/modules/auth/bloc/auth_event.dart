@@ -9,7 +9,8 @@ class LoginUser extends AuthEvent {
 }
 
 class RegisterUser extends AuthEvent {
-  Map<String, Object> map;
+  String name, email, password;
   AuthDelegate delegate;
-  RegisterUser(this.map, this.delegate);
+
+  RegisterUser(this.name, this.email, this.password, this.delegate);
 }
