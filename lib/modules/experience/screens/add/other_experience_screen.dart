@@ -1,3 +1,4 @@
+import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/modules/experience/screens/add/experience_address_screen.dart';
 import 'package:exploriahost/modules/experience/widgets/other_experience_item.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
@@ -7,7 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OtherExperienceScreen extends StatefulWidget {
-  const OtherExperienceScreen({Key? key}) : super(key: key);
+  final CreateExperienceRequest createExperienceRequest;
+
+  const OtherExperienceScreen({Key? key, required this.createExperienceRequest})
+      : super(key: key);
 
   @override
   _OtherExperienceScreenState createState() => _OtherExperienceScreenState();
@@ -23,6 +27,34 @@ class _OtherExperienceScreenState extends State<OtherExperienceScreen> {
 
   final List<String> _otherExperiences = [];
   final List<String> _facilities = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    print('received data name is ${widget.createExperienceRequest.name}');
+  }
+
+  void _addData() {
+    CreateExperienceRequest data = widget.createExperienceRequest;
+    CreateExperienceRequest newData = CreateExperienceRequest(
+        name: data.name,
+        description: data.description,
+        files: data.files,
+        price: data.price,
+        duration: data.duration,
+        category: data.category,
+        facilities: _convertFacilitiesToString(),
+        otherExperience: _convertOtherExperiencesToString());
+
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) =>
+            ExperienceAddresscreen(createExperienceRequest: newData),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,14 +140,7 @@ class _OtherExperienceScreenState extends State<OtherExperienceScreen> {
                   context: context,
                   text: 'Lanjut',
                   isEnabled: true,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (c) => const ExperienceAddresscreen(),
-                      ),
-                    );
-                  }),
+                  onPressed: () => _addData()),
               const SizedBox(
                 height: 32,
               ),
@@ -200,5 +225,31 @@ class _OtherExperienceScreenState extends State<OtherExperienceScreen> {
       _otherExperiences.add(_otherExperienceController.text);
       _otherExperienceController.clear();
     });
+  }
+
+  String _convertFacilitiesToString() {
+    String result = "";
+    for (var element in _facilities) {
+      result += '$element,';
+    }
+
+    if (result.isNotEmpty) {
+      result = result.substring(0, result.length - 1);
+    }
+
+    return result;
+  }
+
+  String _convertOtherExperiencesToString() {
+    String result = "";
+    for (var element in _otherExperiences) {
+      result += '$element,';
+    }
+
+    if (result.isNotEmpty) {
+      result = result.substring(0, result.length - 1);
+    }
+
+    return result;
   }
 }

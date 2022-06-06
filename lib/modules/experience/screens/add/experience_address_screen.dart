@@ -1,3 +1,6 @@
+import 'package:exploriahost/core/network/request/create_experience_request.dart';
+import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
+import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
@@ -11,7 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ExperienceAddresscreen extends StatefulWidget {
-  const ExperienceAddresscreen({Key? key}) : super(key: key);
+  final CreateExperienceRequest createExperienceRequest;
+
+  const ExperienceAddresscreen(
+      {Key? key, required this.createExperienceRequest})
+      : super(key: key);
 
   @override
   _ExperienceAddresscreenState createState() => _ExperienceAddresscreenState();
@@ -21,6 +28,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _kodePosController = TextEditingController();
   late GoogleMapController mapController;
+  late ExperienceBloc _bloc;
 
   final _formKey = GlobalKey<FormState>();
   String _selectedItemProvince = initialProvinceItem;
@@ -51,6 +59,12 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _bloc = ExperienceBloc();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -77,7 +91,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                 child: Text(
                   "Harap mengisi data diri dengan benar untuk memudahkan tim kami memverifikasi data kamu.",
                   style: ExploriaTheme.bodyText,
@@ -112,13 +126,6 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
                 height: 16,
               ),
               const ExploriaGenericTextInputHint(
-                text: "Kode Pos*",
-              ),
-              ExploriaGenericTextInput(
-                  controller: _kodePosController,
-                  inputType: TextInputType.number,
-                  maxLines: 1),
-              const ExploriaGenericTextInputHint(
                 text: "Alamat Lengkap*",
               ),
               ExploriaGenericTextInput(
@@ -126,7 +133,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
                 inputType: TextInputType.text,
                 maxLines: 5,
                 hintText:
-                    "Jl. Danau Toba 5 no.95, Tegalgede, Kec. Sumbersari, Kab. Jember",
+                "Jl. Danau Toba 5 no.95, Tegalgede, Kec. Sumbersari, Kab. Jember",
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -157,10 +164,10 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
               ),
               _markedLatitude == null
                   ? exploriaBorderButton(
-                      context: context,
-                      text: 'Tambahkan Pin Point',
-                      isEnabled: true,
-                      onPressed: () => _initiateToLocationPicker())
+                  context: context,
+                  text: 'Tambahkan Pin Point',
+                  isEnabled: true,
+                  onPressed: () => _initiateToLocationPicker())
                   : _buildAddressMap(),
               const SizedBox(
                 height: 24,
@@ -171,12 +178,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
                   isEnabled: true,
                   onPressed: ()  {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (c) => const HomeScreen(),
-                        ),
-                      );
+                      _createExperience();
                     }
                   }),
               const SizedBox(
@@ -218,5 +220,25 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
         ),
       ),
     );
+  }
+
+  void _createExperience() {
+    CreateExperienceRequest data = widget.createExperienceRequest;
+    CreateExperienceRequest newData = CreateExperienceRequest(
+        name: data.name,
+        description: data.description,
+        files: data.files,
+        price: data.price,
+        duration: data.duration,
+        category: data.category,
+        facilities: data.facilities,
+        otherExperience: data.otherExperience,
+        address: _addressController.text,
+        provinceId: 15,
+        cityId: 33,
+        latitude: _markedLatitude,
+        longitude: _markedLongitude);
+
+    _bloc.add(CreateExperience(request: newData));
   }
 }

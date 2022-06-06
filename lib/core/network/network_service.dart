@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/core/network/response/auth/LoginResponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -113,5 +114,29 @@ abstract class NetworkService {
       body: jsonEncode(<String, Object>{'email': email, 'password': password}),
     );
     return LoginResponse.fromJson(json.decode(response.body));
+  }
+
+  Future<dynamic> createExperienceService(String endpoint,
+      {Map<String, String>? header, dynamic body, required List<File> files}) async {
+    try {
+      var uri = Uri.parse(endpoint);
+      var request = http.MultipartRequest("POST", uri);
+
+      for (var element in files) {
+        request.files.add(await http.MultipartFile.fromPath('files', element.path,
+            contentType: MediaType('image','*')));
+      }
+
+      if (header != null) request.headers.addAll(header);
+      if (body != null) request.fields.addAll(body);
+
+      var response = await request.send().then(http.Response.fromStream);
+      var res = jsonDecode(response.body);
+      logger.d(res);
+      return res;
+
+    } on SocketException {
+      throw Exception("Connection Failed");
+    }
   }
 }

@@ -16,10 +16,16 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
         emit(ShowEtalaseExperience(data.data ?? []));
       } else {
       }
-      // try {
-      //
-      // } catch (ex) {
-      // }
+    });
+
+    on<CreateExperience>((event, emit) async {
+      emit(ShowLoading());
+      var data = await _repository.createExperience(event.request);
+      if (data.status == 201) {
+        print(data.message);
+      } else {
+        print(data.message);
+      }
     });
   }
 }

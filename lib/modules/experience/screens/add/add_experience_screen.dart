@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/modules/experience/screens/add/other_experience_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_choose_image.dart';
@@ -102,7 +103,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0),
                 child: ExploriaGenericTextInputHint(
-                  text: "Harga Perorangan*",
+                  text: "Durasi Experience (Jam)*",
                 ),
               ),
               ExploriaGenericTextInput(
@@ -127,14 +128,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
                   context: context,
                   text: 'Lanjut',
                   isEnabled: true,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (c) => const OtherExperienceScreen(),
-                      ),
-                    );
-                  }),
+                  onPressed: () => _passDataToNextScreen()),
               const SizedBox(
                 height: 32,
               ),
@@ -173,12 +167,14 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (c) => ImageFullScreen(
-                        image: image,
-                        heroTag: heroTag,
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (c) => ImageFullScreen(
+                image: image,
+                heroTag: heroTag,
+              ),
+            ),
+          );
         },
         child: Hero(
           tag: heroTag,
@@ -245,5 +241,22 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
         Navigator.pop(context);
       } else {}
     });
+  }
+
+  void _passDataToNextScreen() {
+    CreateExperienceRequest data = CreateExperienceRequest(
+        name: _experienceNameController.text,
+        description: _descriptionController.text,
+        files: images,
+        price: int.parse(_priceController.text),
+        duration: int.parse(_hourController.text),
+        category: _selectedItem);
+
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => OtherExperienceScreen(createExperienceRequest: data),
+      ),
+    );
   }
 }

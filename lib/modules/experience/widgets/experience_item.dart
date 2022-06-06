@@ -1,3 +1,4 @@
+import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/core/network/response/experience/experience_etalase_response.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/currency_formatter.dart';
@@ -28,7 +29,7 @@ class ExperienceItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  experience.imageUrl ?? imageP,
+                  '$BASE_URL${experience.imageUrl}',
                   width: 80,
                   height: 100,
                   fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class ExperienceItem extends StatelessWidget {
                       const Text("/orang")
                     ],
                   ),
-                  Text('${experience.duration} Jam'),
+                  Text('Durasi ${experience.duration} Jam'),
                   const SizedBox(
                     height: 8,
                   ),
@@ -109,9 +110,9 @@ class ExperienceItem extends StatelessWidget {
       case 1:
         return ExploriaTheme.primaryColor;
       case 2:
-        return Colors.yellow;
+        return Colors.orange;
       default:
-        return Colors.yellow;
+        return Colors.orange;
     }
   }
 
