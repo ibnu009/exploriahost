@@ -64,7 +64,7 @@ class ExploriaTheme {
     poppins,
     color: Colors.black,
     fontWeight: FontWeight.w600,
-    fontSize: 16,
+    fontSize: 18,
   );
 
   static TextStyle get smallTitle => GoogleFonts.getFont(

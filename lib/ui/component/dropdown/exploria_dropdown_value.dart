@@ -36,3 +36,14 @@ List<String> categoryProblemItems = [
   'Unresponsive Gesturization',
   'Different platforms and OS',
 ];
+
+const String initialBankItem = 'BRI';
+List<String> bankItems = [
+  'BRI',
+  'BNI',
+  'Mandiri',
+  'BCA',
+  'BSI',
+  'Danamon',
+  'Bank Jatim',
+];

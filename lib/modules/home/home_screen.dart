@@ -1,6 +1,7 @@
 import 'package:exploriahost/modules/home/widget/BuildBannerList.dart';
 import 'package:exploriahost/modules/home/widget/build_home_menu.dart';
 import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
+import 'package:exploriahost/modules/notification/notification_screen.dart';
 import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,10 +101,15 @@ class BuildHomeHeader extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-            child: Icon(Icons.notifications_active,
-                color: ExploriaTheme.primaryColor),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, CupertinoPageRoute(builder: (c) => const NotificationScreen()));
+            },
+            child: const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+              child: Icon(Icons.notifications_active,
+                  color: ExploriaTheme.primaryColor),
+            ),
           ),
           const Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),

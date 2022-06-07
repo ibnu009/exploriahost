@@ -1,6 +1,6 @@
 import 'package:exploriahost/modules/home/home_screen.dart';
-import 'package:exploriahost/modules/profile/screen/edit_password_profile_screen.dart';
-import 'package:exploriahost/modules/profile/screen/edit_phone_profile_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit/edit_password_profile_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit/edit_phone_profile_screen.dart';
 import 'package:exploriahost/modules/profile/widget/build_profile_header.dart';
 import 'package:exploriahost/modules/profile/widget/build_verification_card.dart';
 import 'package:exploriahost/modules/setting/screen/application_policy.dart';
