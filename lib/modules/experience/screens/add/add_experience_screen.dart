@@ -149,7 +149,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
       for (int i = 0; i < images.length; i++) {
         File img = images[i];
         String heroTag = "heroTag $i";
-        resultWidget.add(_buildImageResultHolder(img, heroTag));
+        resultWidget.add(_buildImageResultHolder(img, heroTag, i));
       }
     }
 
@@ -161,42 +161,57 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
     );
   }
 
-  Widget _buildImageResultHolder(File image, String heroTag) {
+  Widget _buildImageResultHolder(File image, String heroTag, int position) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (c) => ImageFullScreen(
-                image: image,
-                heroTag: heroTag,
-              ),
-            ),
-          );
-        },
-        child: Hero(
-          tag: heroTag,
-          child: Center(
-            child: DottedBorder(
-              borderType: BorderType.RRect,
-              strokeWidth: 1,
-              strokeCap: StrokeCap.round,
-              color: Colors.black54,
-              radius: const Radius.circular(12),
-              dashPattern: const [5, 5],
-              child: SizedBox(
-                height: 100,
-                width: 100,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.file(image, fit: BoxFit.cover),
+      child: Stack(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (c) => ImageFullScreen(
+                    image: image,
+                    heroTag: heroTag,
+                  ),
+                ),
+              );
+            },
+            child: Hero(
+              tag: heroTag,
+              child: Center(
+                child: DottedBorder(
+                  borderType: BorderType.RRect,
+                  strokeWidth: 1,
+                  strokeCap: StrokeCap.round,
+                  color: Colors.black54,
+                  radius: const Radius.circular(12),
+                  dashPattern: const [5, 5],
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(image, fit: BoxFit.cover),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: InkWell(
+              onTap: () => _showDialogConfimationDelete(position),
+              child: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -257,6 +272,42 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
       CupertinoPageRoute(
         builder: (c) => OtherExperienceScreen(createExperienceRequest: data),
       ),
+    );
+  }
+
+  Future<void> _showDialogConfimationDelete(int position) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Text('Hapus Foto'),
+          content: const Text('Apakah kamu yakin untuk menghapus foto ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  images.removeAt(position);
+                });
+              },
+              child: const Text('Iya'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

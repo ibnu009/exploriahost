@@ -1,15 +1,10 @@
 import 'package:exploriahost/core/network/network_service.dart';
-import 'package:exploriahost/core/network/response/experience/experience_etalase_response.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
-import 'package:exploriahost/utils/int_ext.dart';
 import 'package:flutter/material.dart';
 
-String imageP = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNGn2ApoDdsvsla7BGl_jx7lZXFoeb0nkvG-oxwdRE9DRvfdshJPE7nZwOOLc1NLKYf_E&usqp=CAU";
-
-class ExperienceItem extends StatelessWidget {
-  final Experience experience;
-
-  const ExperienceItem({Key? key, required this.experience}) : super(key: key);
+class BuildScheduleCard extends StatelessWidget {
+  final String image, name, price, durasi;
+  const BuildScheduleCard({Key? key, required this.name, required this.price, required this.durasi, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +24,7 @@ class ExperienceItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  '$BASE_URL${experience.imageUrl}',
+                  '$BASE_URL$image',
                   width: 80,
                   height: 100,
                   fit: BoxFit.cover,
@@ -46,7 +41,7 @@ class ExperienceItem extends StatelessWidget {
                     height: 12,
                   ),
                   Text(
-                    experience.name ?? "",
+                    name,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
@@ -59,19 +54,16 @@ class ExperienceItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        experience.price.toRupiah(),
+                        price,
                         style: ExploriaTheme.title.copyWith(fontSize: 20),
                       ),
                       const Text("/orang")
                     ],
                   ),
-                  Text('Durasi ${experience.duration} Jam'),
+                  Text(durasi),
                   const SizedBox(
                     height: 8,
                   ),
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      child: _buildIndicator()),
                   const SizedBox(
                     height: 12,
                   ),
@@ -82,50 +74,5 @@ class ExperienceItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildIndicator(){
-    return Container(
-      width: 80,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: _statusExperienceColor(experience.accepted))),
-      child: Center(
-        child: Text(_statusExperience(experience.accepted),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: _statusExperienceColor(experience.accepted),
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-            )),
-      ),
-    );
-  }
-
-  Color _statusExperienceColor(int statusAccepted) {
-    switch (statusAccepted) {
-      case 0:
-        return Colors.red;
-      case 1:
-        return ExploriaTheme.primaryColor;
-      case 2:
-        return Colors.orange;
-      default:
-        return Colors.orange;
-    }
-  }
-
-  String _statusExperience(int statusAccepted) {
-    switch (statusAccepted) {
-      case 0:
-        return 'Rejected';
-      case 1:
-        return 'Accepted';
-      case 2:
-        return 'Pending';
-      default:
-        return 'Pending';
-    }
   }
 }

@@ -1,14 +1,16 @@
 import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
-import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/modules/experience/screens/add/success_add_experience_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_generic_dropdown.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/map/map_screen.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,7 +26,8 @@ class ExperienceAddresscreen extends StatefulWidget {
   _ExperienceAddresscreenState createState() => _ExperienceAddresscreenState();
 }
 
-class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
+class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
+    implements GenericDelegate {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _kodePosController = TextEditingController();
   late GoogleMapController mapController;
@@ -239,6 +242,29 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen> {
         latitude: _markedLatitude,
         longitude: _markedLongitude);
 
-    _bloc.add(CreateExperience(request: newData));
+    _bloc.add(CreateExperience(request: newData, delegate: this));
+  }
+
+  @override
+  void onError(String message) {
+    // TODO: implement onError
+  }
+
+  @override
+  void onLoading() {
+    showLoadingDialog(context: context);
+  }
+
+  @override
+  void onSuccess(String message) {
+    showSuccessDialog(
+        context: context,
+        title: "Success",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const SuccessAddExperienceScreen()));
+        });
   }
 }

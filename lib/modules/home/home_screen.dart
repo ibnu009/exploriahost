@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/home/widget/BuildBannerList.dart';
 import 'package:exploriahost/modules/home/widget/build_home_menu.dart';
 import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
+import 'package:exploriahost/modules/schedule/screens/all_schedule_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,18 +41,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Jadwal Terdekat", style: ExploriaTheme.subTitle),
-                    Text("Semua", style: ExploriaTheme.subTitleButton),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (c) => const AllScheduleScreen()));
+                        },
+                        child:
+                            Text("Semua", style: ExploriaTheme.subTitleButton)),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 18,
               ),
-              ListView.builder(
-                  itemCount: 4,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (ctx, index) => BuildItemSchedule()),
+              // ListView.builder(
+              //     itemCount: 4,
+              //     shrinkWrap: true,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     itemBuilder: (ctx, index) => BuildItemSchedule()),
               const SizedBox(
                 height: 32,
               ),
