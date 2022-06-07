@@ -1,7 +1,12 @@
-import 'package:exploriahost/modules/profile/screen/edit_password_profile_screen.dart';
-import 'package:exploriahost/modules/profile/screen/edit_phone_profile_screen.dart';
+import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit/edit_password_profile_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit/edit_phone_profile_screen.dart';
 import 'package:exploriahost/modules/profile/widget/build_profile_header.dart';
 import 'package:exploriahost/modules/profile/widget/build_verification_card.dart';
+import 'package:exploriahost/modules/setting/screen/application_policy.dart';
+import 'package:exploriahost/modules/setting/screen/frequently_ask_question.dart';
+import 'package:exploriahost/modules/setting/screen/report_problems.dart';
+import 'package:exploriahost/modules/setting/screen/setting_notification.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
         leading: InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              Navigator.push(context, CupertinoPageRoute(builder: (c) => const HomeScreen()));
+            },
             child: const Icon(
               Icons.arrow_back,
               color: Colors.white,
@@ -66,15 +73,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildDivider(),
               _buildSettingParentSection("Pengaturan Aplikasi"),
               _buildDivider(),
-              _buildSettingSubSection("Pengaturan Notifikasi", () => null),
+              _buildSettingSubSection("Pengaturan Notifikasi", () {
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (c) => SettingNotification()));
+              }),
               _buildDivider(),
-              _buildSettingSubSection("Laporkan Masalah", () => null),
+              _buildSettingSubSection("Laporkan Masalah", () {
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (c) => ReportProblems()));
+              }),
               _buildDivider(),
               _buildSettingParentSection("Kebijakan dan Pertanyaan"),
               _buildDivider(),
-              _buildSettingSubSection("Kebijakan Aplikasi", () => null),
+              _buildSettingSubSection("Kebijakan Aplikasi", () {
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
+              }),
               _buildDivider(),
-              _buildSettingSubSection("FAQ", () => null),
+              _buildSettingSubSection("FAQ", () {
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
+              }),
               _buildDivider(),
               
               exploriaPrimaryButton(context: context, text: "Logout", isEnabled: true, onPressed: (){}),

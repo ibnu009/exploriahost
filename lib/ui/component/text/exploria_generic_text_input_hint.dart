@@ -1,3 +1,4 @@
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
 class ExploriaGenericTextInputHint extends StatelessWidget {
@@ -10,7 +11,8 @@ class ExploriaGenericTextInputHint extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 15, 4),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        style: ExploriaTheme.smallTitle
+        // const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: poppins),
       ),
     );
   }

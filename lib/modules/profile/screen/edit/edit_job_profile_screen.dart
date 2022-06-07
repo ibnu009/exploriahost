@@ -1,18 +1,18 @@
-import 'package:exploriahost/modules/profile/screen/verification_OTP_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
-class EditPasswordProfile extends StatefulWidget {
-  const EditPasswordProfile({Key? key}) : super(key: key);
+class EditJobProfile extends StatefulWidget {
+  const EditJobProfile({Key? key}) : super(key: key);
 
   @override
-  _EditPasswordProfileState createState() => _EditPasswordProfileState();
+  _EditJobProfileState createState() => _EditJobProfileState();
 }
 
-class _EditPasswordProfileState extends State<EditPasswordProfile> {
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+class _EditJobProfileState extends State<EditJobProfile> {
+  final TextEditingController _jobPositionController = TextEditingController();
+  final TextEditingController _jobInstanceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
           elevation: 0,
           centerTitle: true,
           title: const Text(
-              "Ubah Password",
+              "Data Pekerjaan",
               style: TextStyle(color: Colors.white, fontSize: 14)
           ),
           leading: InkWell(
@@ -34,14 +34,17 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20.0,),
-              _buildTextInputHint('Password Baru'),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(18, 20, 18, 15),
+                  child: Text('Harap pekerjaan dengan benar untuk memudahkan menjual Experience kamu.', style: ExploriaTheme.text1,)
+              ),
+              ExploriaGenericTextInputHint(text: 'Posisi'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
                 child: TextField(
                   showCursor: true,
-                  controller: _newPasswordController,
+                  controller: _jobPositionController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.black45,
                   decoration: InputDecoration(
@@ -57,13 +60,13 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       hintStyle: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ),
               ),
-              _buildTextInputHint('Ulangi Password Baru'),
+              ExploriaGenericTextInputHint(text: 'Instansi atau Organisasi'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
                 child: TextField(
                   showCursor: true,
-                  controller: _confirmPasswordController,
+                  controller: _jobInstanceController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.black45,
                   decoration: InputDecoration(
@@ -83,26 +86,13 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                 padding: EdgeInsets.symmetric(horizontal: 9, vertical: 20.0),
                 child: exploriaPrimaryButton(
                   context: context,
-                  text: 'Konfirmasi',
+                  text: 'Simpan',
                   isEnabled: true,
-                  onPressed: () {
-                    Navigator.push(context, 
-                        CupertinoPageRoute(builder: (c) => const VerificationOTPscreen()));
-                  },
+                  onPressed: () {},
                 ),
               )
             ]
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

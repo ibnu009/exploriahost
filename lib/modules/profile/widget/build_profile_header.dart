@@ -1,4 +1,4 @@
-import 'package:exploriahost/modules/profile/screen/edit_profile_start_screen.dart';
+import 'package:exploriahost/modules/profile/screen/edit/edit_profile_start_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,6 @@
 import 'package:exploriahost/modules/profile/screen/verification_OTP_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,12 +39,12 @@ class _EditPhoneProfileState extends State<EditPhoneProfile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20.0,),
-                _buildTextInputHint('Nomor Telepon Saat Ini'),
+                ExploriaGenericTextInputHint(text: 'Nomor Telepon Saat Ini'),
                 Container(
                     padding: EdgeInsets.fromLTRB(18, 5, 0, 10),
                     child: Text('085730762925', style: TextStyle(fontSize: 16),)
                 ),
-                _buildTextInputHint('Nomor Telepon Baru'),
+                ExploriaGenericTextInputHint(text: 'Nomor Telepon Baru'),
                 Container(
                   height: 55.0,
                   padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
@@ -86,16 +87,6 @@ class _EditPhoneProfileState extends State<EditPhoneProfile> {
               ]
           ),
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

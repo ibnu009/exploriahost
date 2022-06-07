@@ -25,7 +25,7 @@ Widget exploriaPrimaryButton({
       style: raisedButtonStyle,
       child: Text(
         text,
-        style: const TextStyle(fontSize: 15),
+        style: ExploriaTheme.smallTitle.copyWith(color: Colors.white, fontSize: 15)
       ),
       onPressed: isEnabled ? onPressed : (){},
     ),

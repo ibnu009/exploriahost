@@ -1,16 +1,19 @@
+import 'package:exploriahost/modules/profile/screen/verification_OTP_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class EditJobProfile extends StatefulWidget {
-  const EditJobProfile({Key? key}) : super(key: key);
+class EditPasswordProfile extends StatefulWidget {
+  const EditPasswordProfile({Key? key}) : super(key: key);
 
   @override
-  _EditJobProfileState createState() => _EditJobProfileState();
+  _EditPasswordProfileState createState() => _EditPasswordProfileState();
 }
 
-class _EditJobProfileState extends State<EditJobProfile> {
-  final TextEditingController _jobPositionController = TextEditingController();
-  final TextEditingController _jobInstanceController = TextEditingController();
+class _EditPasswordProfileState extends State<EditPasswordProfile> {
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +21,7 @@ class _EditJobProfileState extends State<EditJobProfile> {
           elevation: 0,
           centerTitle: true,
           title: const Text(
-              "Data Pekerjaan",
+              "Ubah Password",
               style: TextStyle(color: Colors.white, fontSize: 14)
           ),
           leading: InkWell(
@@ -32,17 +35,14 @@ class _EditJobProfileState extends State<EditJobProfile> {
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(18, 20, 18, 15),
-                  child: Text('Harap pekerjaan dengan benar untuk memudahkan menjual Experience kamu.')
-              ),
-              _buildTextInputHint('Posisi'),
+              SizedBox(height: 20.0,),
+              ExploriaGenericTextInputHint(text: 'Password Baru'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
                 child: TextField(
                   showCursor: true,
-                  controller: _jobPositionController,
+                  controller: _newPasswordController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.black45,
                   decoration: InputDecoration(
@@ -58,13 +58,13 @@ class _EditJobProfileState extends State<EditJobProfile> {
                       hintStyle: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ),
               ),
-              _buildTextInputHint('Instansi atau Organisasi'),
+              ExploriaGenericTextInputHint(text: 'Ulangi Password Baru'),
               Container(
                 height: 55.0,
                 padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),
                 child: TextField(
                   showCursor: true,
-                  controller: _jobInstanceController,
+                  controller: _confirmPasswordController,
                   keyboardType: TextInputType.name,
                   cursorColor: Colors.black45,
                   decoration: InputDecoration(
@@ -84,23 +84,16 @@ class _EditJobProfileState extends State<EditJobProfile> {
                 padding: EdgeInsets.symmetric(horizontal: 9, vertical: 20.0),
                 child: exploriaPrimaryButton(
                   context: context,
-                  text: 'Simpan',
+                  text: 'Konfirmasi',
                   isEnabled: true,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, 
+                        CupertinoPageRoute(builder: (c) => const VerificationOTPscreen()));
+                  },
                 ),
               )
             ]
         )
-    );
-  }
-
-  Widget _buildTextInputHint(String text) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 15, 4),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
     );
   }
 }

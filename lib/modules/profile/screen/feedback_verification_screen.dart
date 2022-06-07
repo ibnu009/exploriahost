@@ -26,12 +26,7 @@ class _FeedbackVerificationscreenState extends State<FeedbackVerificationscreen>
           "Selesai",
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
-        leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(

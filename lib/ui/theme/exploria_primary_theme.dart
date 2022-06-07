@@ -27,7 +27,7 @@ class ExploriaTheme {
   static const Color fieldColor = Color(0xFFF3F2F2);
   static const Color alert = Color(0xffED6363);
   static const Color redColor = Color(0xffF30A0A);
-
+  static const Color primaryColorBrighter = Color(0xFFD7F4E6);
   static const Color lightGrey = Color(0xffE8E5E5);
   static const Color yellowStar = Color(0xffFCAE03);
   static const Color borderColor = Color(0xFFCECECE);
@@ -61,7 +61,7 @@ class ExploriaTheme {
     poppins,
     color: Colors.black,
     fontWeight: FontWeight.w600,
-    fontSize: 16,
+    fontSize: 18,
   );
 
   static TextStyle get smallTitle => GoogleFonts.getFont(
@@ -92,8 +92,12 @@ class ExploriaTheme {
     fontSize: 16,
   );
 
-  static TextStyle get text1 => GoogleFonts.getFont(poppins,
-      color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14);
+  static TextStyle get text1 => GoogleFonts.getFont(
+      poppins,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontSize: 14);
+
   static TextStyle get darktitle => GoogleFonts.getFont(
     poppins,
     color: ExploriaTheme.greydark,
