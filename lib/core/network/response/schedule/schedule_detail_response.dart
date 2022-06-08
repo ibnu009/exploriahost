@@ -30,7 +30,7 @@ class ScheduleDetailResponse {
     "status": status == null ? null : status,
     "row_count": rowCount == null ? null : rowCount,
     "message": message == null ? null : message,
-    "data": data == null ? null : data?.toJson(),
+    "data": data == null ? null : data.toJson(),
   };
 }
 

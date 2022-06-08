@@ -1,5 +1,6 @@
 import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/core/network/response/experience/experience_etalase_response.dart';
+import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/int_ext.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,10 @@ class ExperienceItem extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  '$BASE_URL${experience.imageUrl}',
+                child: ExploriaImageNetwork(
+                  imageUrl: '$BASE_URL${experience.imageUrl}',
                   width: 80,
                   height: 100,
-                  fit: BoxFit.cover,
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:exploriahost/core/network/network_service.dart';
+import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +23,12 @@ class BuildScheduleCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  '$BASE_URL$image',
-                  width: 80,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(8),
+                  child: ExploriaImageNetwork(
+                    imageUrl: '$BASE_URL$image',
+                    width: 80,
+                    height: 100,
+                  )),
             ),
             Flexible(
               child: Column(

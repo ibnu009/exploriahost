@@ -13,7 +13,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       emit(ShowLoading());
       var data = await _repository.fetchSchedules();
       if (data.status == 200) {
-        emit(ShowSchedules(data.data ?? []));
+        emit(ShowSchedules(data.data));
       } else {}
     });
 

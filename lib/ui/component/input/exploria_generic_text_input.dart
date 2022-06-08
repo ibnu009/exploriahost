@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ExploriaGenericTextInput extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType inputType;
-  final int? maxLines;
+  final int? maxLines, maxLength;
   final String? hintText;
   final Function(String)? onSubmitted;
-  const ExploriaGenericTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType, this.onSubmitted}) : super(key: key);
+  const ExploriaGenericTextInput({Key? key, required this.controller, this.maxLines, this.hintText, required this.inputType, this.onSubmitted, this.maxLength}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,7 @@ class ExploriaGenericTextInput extends StatelessWidget {
         controller: controller,
         keyboardType: inputType,
         maxLines: maxLines,
+        maxLength: maxLength,
         onFieldSubmitted: onSubmitted,
         cursorColor: Colors.black45,
         validator: (value) =>

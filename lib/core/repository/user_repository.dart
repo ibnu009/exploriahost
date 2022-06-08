@@ -1,7 +1,12 @@
 
+import 'dart:io';
+
 import 'package:exploriahost/core/network/network_service.dart';
+import 'package:exploriahost/core/network/request/verify_profile_request.dart';
 import 'package:exploriahost/core/network/response/auth/LoginResponse.dart';
 import 'package:exploriahost/core/network/response/auth/RegisterResponse.dart';
+import 'package:exploriahost/core/network/response/generic_response.dart';
+import 'package:exploriahost/core/network/response/profile/profile_response.dart';
 import 'package:exploriahost/utils/string_ext.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -53,6 +58,27 @@ class UserRepository extends NetworkService {
     var map = await postMethod("$BASE_URL/api/host/register",
         body: body, headers: header);
     return RegisterResponse.fromJson(map);
+  }
+
+  Future<HostProfileResponse> fetchHostProfile() async {
+    String? readData = await storage.read(key: 'token') ?? "";
+    var header = {contentType: applicationJson, token: readData};
+    var map = await getMethod("$BASE_URL/api/host/profile", header);
+    return HostProfileResponse.fromJson(map);
+  }
+
+  Future<GenericResponse> verifyHostProfile(
+      VerifyProfileRequest request, File file) async {
+    String? readData = await storage.read(key: 'token') ?? "";
+    var header = {contentType: applicationJson, token: readData};
+    var fileReq = {'image': file};
+    var map = await multipartUpdate(
+        "$BASE_URL/api/host/edit",
+        body: request.toJson(),
+        files: fileReq,
+        header: header);
+
+    return GenericResponse.fromJson(map);
   }
 
   Future<String?> readSecureData(String key) {

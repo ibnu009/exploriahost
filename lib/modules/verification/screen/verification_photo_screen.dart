@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:exploriahost/core/network/request/verify_profile_request.dart';
+import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
+import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
 import 'package:exploriahost/modules/verification/screen/verification_end_screen.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
@@ -11,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class VerificationPhotoScreen extends StatefulWidget {
-  const VerificationPhotoScreen({Key? key}) : super(key: key);
+  final VerifyProfileRequest request;
+  const VerificationPhotoScreen({Key? key, required this.request}) : super(key: key);
 
   @override
   _VerificationPhotoScreenState createState() =>
@@ -22,6 +26,16 @@ class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
   String? path, fileName;
   final picker = ImagePicker();
   File? photo;
+  late VerifyProfileRequest newReq;
+
+  late ProfileBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ProfileBloc();
+    newReq = widget.request;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +82,12 @@ class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
                 text: 'Lanjut',
                 isEnabled: true,
                 onPressed: () {
+                  if (photo == null){
+                    return;
+                  }
+
+                  _bloc.add(VerifyHostProfile(newReq, photo!));
+
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
