@@ -9,6 +9,12 @@ class GetEtalaseExperience extends ExperienceEvent {
   GetEtalaseExperience(this.status);
 }
 
+class GetDetailExperience extends ExperienceEvent {
+  String uuidExperience;
+
+  GetDetailExperience(this.uuidExperience);
+}
+
 class CreateExperience extends ExperienceEvent {
   CreateExperienceRequest request;
   GenericDelegate delegate;

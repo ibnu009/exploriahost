@@ -12,7 +12,6 @@ class ExploriaGenericTextInputHint extends StatelessWidget {
       child: Text(
         text,
         style: ExploriaTheme.smallTitle
-        // const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: poppins),
       ),
     );
   }

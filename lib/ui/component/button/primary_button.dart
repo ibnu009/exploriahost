@@ -7,10 +7,13 @@ Widget exploriaPrimaryButton({
   required String text,
   required bool isEnabled,
   required Function() onPressed,
+  Color? color,
 }) {
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.white,
-    primary: isEnabled ? ExploriaTheme.primaryColor : Colors.grey,
+    primary: !isEnabled
+        ? Colors.grey
+        : color ?? ExploriaTheme.primaryColor,
     minimumSize: const Size(double.infinity, 50),
     padding: const EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(

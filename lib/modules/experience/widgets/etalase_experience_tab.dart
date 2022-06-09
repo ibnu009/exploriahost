@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_state.dart';
 import 'package:exploriahost/modules/experience/widgets/experience_item.dart';
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +31,7 @@ class _EtalaseExperienceTabState extends State<EtalaseExperienceTab> {
       builder: (ctx, state) {
         if (state is ShowLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ExploriaLoading(width: 100,),
           );
         }
         if (state is ShowEtalaseExperience) {

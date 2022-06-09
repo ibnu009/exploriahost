@@ -45,8 +45,6 @@ class UserRepository extends NetworkService {
   Future<RegisterResponse> submitRegister(String name, String email, String password) async {
 
     String hashedPassword = password.convertToSha256();
-    print('normal password is $password' );
-    print('hashed password is $hashedPassword');
 
     Map<String, Object> body = {
       'full_name': name,

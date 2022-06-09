@@ -5,24 +5,29 @@ import 'package:exploriahost/core/network/request/verify_profile_request.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
 import 'package:exploriahost/modules/verification/screen/verification_end_screen.dart';
-import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_choose_image.dart';
+import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
+import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class VerificationPhotoScreen extends StatefulWidget {
   final VerifyProfileRequest request;
-  const VerificationPhotoScreen({Key? key, required this.request}) : super(key: key);
+
+  const VerificationPhotoScreen({Key? key, required this.request})
+      : super(key: key);
 
   @override
   _VerificationPhotoScreenState createState() =>
       _VerificationPhotoScreenState();
 }
 
-class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
+class _VerificationPhotoScreenState extends State<VerificationPhotoScreen>
+    with GenericDelegate {
   String? path, fileName;
   final picker = ImagePicker();
   File? photo;
@@ -82,18 +87,10 @@ class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
                 text: 'Lanjut',
                 isEnabled: true,
                 onPressed: () {
-                  if (photo == null){
+                  if (photo == null) {
                     return;
                   }
-
-                  _bloc.add(VerifyHostProfile(newReq, photo!));
-
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (c) => const VerificationEndScreen(),
-                    ),
-                  );
+                  _bloc.add(VerifyHostProfile(newReq, photo!, this));
                 }),
             const SizedBox(
               height: 16,
@@ -172,5 +169,26 @@ class _VerificationPhotoScreenState extends State<VerificationPhotoScreen> {
         Navigator.pop(context);
       } else {}
     });
+  }
+
+  @override
+  void onError(String message) {}
+
+  @override
+  void onLoading() {
+    showLoadingDialog(context: context);
+  }
+
+  @override
+  void onSuccess(String message) {
+    showSuccessDialog(
+        context: context,
+        title: "Success",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.of(context).pushReplacement(CupertinoPageRoute(
+              builder: (context) => const VerificationEndScreen()));
+        });
   }
 }

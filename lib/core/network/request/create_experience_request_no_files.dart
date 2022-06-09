@@ -35,7 +35,7 @@ class CreateExperienceNoFileRequest {
         "address": address ?? "",
         "province_id": provinceId.toString(),
         "city_id": cityId.toString(),
-        "other_experience": otherExperience ?? "",
+        "other_experiences": otherExperience ?? "",
         "facilities": facilities ?? "",
         "latitude": latitude.toString(),
         "longitude": longitude.toString(),

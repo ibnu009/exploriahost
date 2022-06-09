@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_bloc.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_event.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_state.dart';
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class _AllScheduleScreenState extends State<AllScheduleScreen> {
       builder: (ctx, state) {
         if (state is ShowLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ExploriaLoading(width: 100,),
           );
         }
         if (state is ShowSchedules) {

@@ -1,5 +1,6 @@
 import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class BuildUserCard extends StatelessWidget {
               child: CircleAvatar(
                 radius: 32,
                 backgroundImage: NetworkImage(
-                  '$BASE_URL$image',
+                  image.isEmpty ? defaultImage : '$BASE_URL$image',
                 ),
               ),
             ),

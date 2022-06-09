@@ -10,6 +10,7 @@ import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/notification/notification_screen.dart';
 import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
 import 'package:exploriahost/modules/schedule/screens/all_schedule_screen.dart';
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/int_ext.dart';
 import 'package:exploriahost/utils/notification_firebase.dart';
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (ctx, state) {
         if (state is ShowHomeLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ExploriaLoading(width: 100,),
           );
         }
         if (state is ShowHomeContent) {
@@ -90,61 +91,63 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: SingleChildScrollView(child: blocListener(blocBuilder())),
+        child: blocListener(blocBuilder()),
       ),
     );
   }
 
   Widget _buildHomeBody(HomeContent homeContent) {
     HostProfile profile = homeContent.hostProfile;
-    return Column(
-      children: [
-        BuildHomeHeader(
-          balance: profile.balance,
-          profileImage: profile.imageUrl,
-          profileName: profile.fullName,
-        ),
-        const SizedBox(
-          height: 18,
-        ),
-        const BuildBannerList(),
-        const SizedBox(
-          height: 18,
-        ),
-        const BuildHomeMenu(),
-        const SizedBox(
-          height: 32,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Jadwal Terdekat", style: ExploriaTheme.subTitle),
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (c) => const AllScheduleScreen()));
-                  },
-                  child: Text("Semua", style: ExploriaTheme.subTitleButton)),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BuildHomeHeader(
+            balance: profile.balance,
+            profileImage: profile.imageUrl,
+            profileName: profile.fullName,
           ),
-        ),
-        const SizedBox(
-          height: 18,
-        ),
-        ListView.builder(
-            itemCount: homeContent.schedules.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (ctx, index) =>
-                BuildItemSchedule(schedule: homeContent.schedules[index])),
-        const SizedBox(
-          height: 32,
-        ),
-      ],
+          const SizedBox(
+            height: 18,
+          ),
+          const BuildBannerList(),
+          const SizedBox(
+            height: 18,
+          ),
+          const BuildHomeMenu(),
+          const SizedBox(
+            height: 32,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Jadwal Terdekat", style: ExploriaTheme.subTitle),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (c) => const AllScheduleScreen()));
+                    },
+                    child: Text("Semua", style: ExploriaTheme.subTitleButton)),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 18,
+          ),
+          ListView.builder(
+              itemCount: homeContent.schedules.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (ctx, index) =>
+                  BuildItemSchedule(schedule: homeContent.schedules[index])),
+          const SizedBox(
+            height: 32,
+          ),
+        ],
+      ),
     );
   }
 

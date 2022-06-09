@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/core/network/response/auth/LoginResponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
-const BASE_URL = 'https://f125-2001-448a-5122-51da-813a-9a6e-c65c-baf5.ngrok.io';
+const BASE_URL = 'https://9943-125-166-119-77.ngrok.io';
 
 abstract class NetworkService {
   final logger = Logger(printer: PrettyPrinter());

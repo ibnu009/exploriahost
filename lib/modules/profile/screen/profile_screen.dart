@@ -12,6 +12,7 @@ import 'package:exploriahost/modules/setting/screen/frequently_ask_question.dart
 import 'package:exploriahost/modules/setting/screen/report_problems.dart';
 import 'package:exploriahost/modules/setting/screen/setting_notification.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/int_ext.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (ctx, state) {
         if (state is ShowHostLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ExploriaLoading(width: 100,),
           );
         }
         if (state is ShowHostProfile) {
@@ -81,79 +82,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(child: blocListener(blocBuilder())),
+        child: blocListener(blocBuilder()),
       ),
     );
   }
 
   Widget _buildProfileBody(HostProfile profile) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        BuildProfileHeader(
-          headline: profile.headline,
-          image: profile.imageUrl,
-          name: profile.fullName,
-        ),
-        BuildVerificationCard(isVerifying: profile.verifiedDate == null ? false : true),
-        const SizedBox(
-          height: 32,
-        ),
-        BuildSaldoAndPoint(
-          balance: profile.balance.toRupiah(),
-          point: "${profile.point}pts",
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        _buildSettingParentSection("Pengaturan Akun"),
-        _buildDivider(),
-        _buildSettingSubSection("Ubah Nomor Telfon", () {
-          Navigator.push(
-              context, CupertinoPageRoute(builder: (c) => const EditPhoneProfile()));
-        }),
-        _buildDivider(),
-        _buildSettingSubSection("Ubah Alamat", () => null),
-        _buildDivider(),
-        _buildSettingSubSection("Ubah Password", () {
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
-        }),
-        _buildDivider(),
-        _buildSettingParentSection("Pengaturan Aplikasi"),
-        _buildDivider(),
-        _buildSettingSubSection("Pengaturan Notifikasi", () {
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (c) => SettingNotification()));
-        }),
-        _buildDivider(),
-        _buildSettingSubSection("Laporkan Masalah", () {
-          Navigator.push(
-              context, CupertinoPageRoute(builder: (c) => ReportProblems()));
-        }),
-        _buildDivider(),
-        _buildSettingParentSection("Kebijakan dan Pertanyaan"),
-        _buildDivider(),
-        _buildSettingSubSection("Kebijakan Aplikasi", () {
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
-        }),
-        _buildDivider(),
-        _buildSettingSubSection("FAQ", () {
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
-        }),
-        _buildDivider(),
-        exploriaPrimaryButton(
-            context: context,
-            text: "Logout",
-            isEnabled: true,
-            onPressed: () {}),
-        const SizedBox(
-          height: 48,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          BuildProfileHeader(
+            headline: profile.headline,
+            image: profile.imageUrl,
+            name: profile.fullName,
+          ),
+          BuildVerificationCard(isVerifying: profile.verifiedDate == null ? false : true),
+          const SizedBox(
+            height: 32,
+          ),
+          BuildSaldoAndPoint(
+            balance: profile.balance.toRupiah(),
+            point: "${profile.point}pts",
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          _buildSettingParentSection("Pengaturan Akun"),
+          _buildDivider(),
+          _buildSettingSubSection("Ubah Nomor Telfon", () {
+            Navigator.push(
+                context, CupertinoPageRoute(builder: (c) => const EditPhoneProfile()));
+          }),
+          _buildDivider(),
+          _buildSettingSubSection("Ubah Alamat", () => null),
+          _buildDivider(),
+          _buildSettingSubSection("Ubah Password", () {
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
+          }),
+          _buildDivider(),
+          _buildSettingParentSection("Pengaturan Aplikasi"),
+          _buildDivider(),
+          _buildSettingSubSection("Pengaturan Notifikasi", () {
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (c) => SettingNotification()));
+          }),
+          _buildDivider(),
+          _buildSettingSubSection("Laporkan Masalah", () {
+            Navigator.push(
+                context, CupertinoPageRoute(builder: (c) => ReportProblems()));
+          }),
+          _buildDivider(),
+          _buildSettingParentSection("Kebijakan dan Pertanyaan"),
+          _buildDivider(),
+          _buildSettingSubSection("Kebijakan Aplikasi", () {
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
+          }),
+          _buildDivider(),
+          _buildSettingSubSection("FAQ", () {
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
+          }),
+          _buildDivider(),
+          exploriaPrimaryButton(
+              context: context,
+              text: "Logout",
+              isEnabled: true,
+              onPressed: () {}),
+          const SizedBox(
+            height: 48,
+          ),
+        ],
+      ),
     );
   }
 

@@ -27,7 +27,7 @@ class CreateExperienceRequest {
         "address": address,
         "province_id": provinceId,
         "city_id": cityId,
-        "other_experience": otherExperience,
+        "other_experiences": otherExperience,
         "facilities": facilities,
         "latitude": latitude,
         "longitude": longitude,

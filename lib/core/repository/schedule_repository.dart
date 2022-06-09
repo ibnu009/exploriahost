@@ -1,4 +1,5 @@
 import 'package:exploriahost/core/network/network_service.dart';
+import 'package:exploriahost/core/network/response/generic_response.dart';
 import 'package:exploriahost/core/network/response/schedule/schedule_detail_response.dart';
 import 'package:exploriahost/core/network/response/schedule/schedule_item_response.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,6 +39,16 @@ class ScheduleRepository extends NetworkService {
         "$BASE_URL/api/host/schedule/$uuidSchedule", header);
 
     return ScheduleDetailResponse.fromJson(map);
+  }
+
+  Future<GenericResponse> setVerificationStatus(String uuidSchedule, String status) async {
+    String? readData = await storage.read(key: 'token') ?? "";
+
+    var header = {contentType: applicationJson, token: readData};
+    var map = await postMethodNoBody(
+        "$BASE_URL/api/host/schedule/verification?uuidSchedule=$uuidSchedule&status=$status", headers: header);
+
+    return GenericResponse.fromJson(map);
   }
 
 }

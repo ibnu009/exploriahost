@@ -5,11 +5,13 @@ import 'package:exploriahost/modules/schedule/bloc/schedule_state.dart';
 import 'package:exploriahost/modules/schedule/widgets/build_schedule_card.dart';
 import 'package:exploriahost/modules/schedule/widgets/build_user_card.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/date_time_ext.dart';
+import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:exploriahost/utils/int_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +25,8 @@ class DetailScheduleScreen extends StatefulWidget {
   _DetailScheduleScreenState createState() => _DetailScheduleScreenState();
 }
 
-class _DetailScheduleScreenState extends State<DetailScheduleScreen> {
+class _DetailScheduleScreenState extends State<DetailScheduleScreen>
+    with GenericDelegate {
   late ScheduleBloc _bloc;
 
   @override
@@ -47,7 +50,7 @@ class _DetailScheduleScreenState extends State<DetailScheduleScreen> {
       builder: (ctx, state) {
         if (state is ShowLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ExploriaLoading(width: 100,),
           );
         }
         if (state is ShowScheduleDetail) {
@@ -154,16 +157,37 @@ class _DetailScheduleScreenState extends State<DetailScheduleScreen> {
           padding: EdgeInsets.all(16),
           child: Divider(thickness: 1, color: Colors.black38),
         ),
-        exploriaPrimaryButton(
-            context: context,
-            text: 'Verifikasi',
-            isEnabled: true,
-            onPressed: () {}),
-        const SizedBox(height: 16,),
-        exploriaBorderButton(
-            context: context, text: 'Tolak', isEnabled: true, onPressed: () {}, buttonColor: Colors.red),
-        const SizedBox(height: 40,),
-
+        Visibility(
+          visible: scheduleDetail.verificationStatus == 2,
+          maintainSize: false,
+          child: exploriaPrimaryButton(
+              context: context,
+              text: 'Verifikasi',
+              isEnabled: true,
+              onPressed: () {
+                _bloc.add(SetVerificationStatus(
+                    scheduleDetail.uuidHostSchedule, "accepted", this));
+              }),
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        Visibility(
+          visible: scheduleDetail.verificationStatus == 2,
+          maintainSize: false,
+          child: exploriaBorderButton(
+              context: context,
+              text: 'Tolak',
+              isEnabled: true,
+              onPressed: () {
+                _bloc.add(SetVerificationStatus(
+                    scheduleDetail.uuidHostSchedule, "reject", this));
+              },
+              buttonColor: Colors.red),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
       ],
     );
   }
@@ -192,5 +216,35 @@ class _DetailScheduleScreenState extends State<DetailScheduleScreen> {
       default:
         return 'Pending Verification';
     }
+  }
+
+  @override
+  void onError(String message) {
+    showFailedDialog(
+        context: context,
+        title: "Failed",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+  }
+
+  @override
+  void onLoading() {
+    showLoadingDialog(context: context);
+  }
+
+  @override
+  void onSuccess(String message) {
+    showSuccessDialog(
+        context: context,
+        title: "Success",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
   }
 }
