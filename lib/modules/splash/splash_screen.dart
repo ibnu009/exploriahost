@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Image.asset(
           'assets/logoexploria.png',
-          height: 120,
+          height: 80,
         ),
       ),
     );

@@ -1,5 +1,8 @@
+import 'package:exploriahost/core/network/response/profile/host_profile.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
-import 'package:exploriahost/modules/pencairan_saldo/screen/tarik_saldo.dart';
+import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
+import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
+import 'package:exploriahost/modules/profile/bloc/profile_state.dart';
 import 'package:exploriahost/modules/profile/screen/edit/edit_password_profile_screen.dart';
 import 'package:exploriahost/modules/profile/screen/edit/edit_phone_profile_screen.dart';
 import 'package:exploriahost/modules/profile/widget/build_profile_header.dart';
@@ -10,8 +13,10 @@ import 'package:exploriahost/modules/setting/screen/report_problems.dart';
 import 'package:exploriahost/modules/setting/screen/setting_notification.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/int_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,6 +27,40 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late ProfileBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ProfileBloc();
+    _bloc.add(GetHostProfile());
+  }
+
+  Widget blocListener(Widget child) {
+    return BlocListener(
+      bloc: _bloc,
+      listener: (ctx, state) => print("$state"),
+      child: child,
+    );
+  }
+
+  Widget blocBuilder() {
+    return BlocBuilder(
+      bloc: _bloc,
+      builder: (ctx, state) {
+        if (state is ShowHostLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is ShowHostProfile) {
+          return _buildProfileBody(state.profile);
+        }
+        return Container();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,69 +81,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              BuildProfileHeader(),
-              BuildVerificationCard(isVerifying: false),
-              const SizedBox(
-                height: 32,
-              ),
-              BuildSaldoAndPoint(
-                balance: "Rp 1.500.000",
-                point: "500pts",
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              _buildSettingParentSection("Pengaturan Akun"),
-              _buildDivider(),
-              _buildSettingSubSection("Ubah Nomor Telfon", () {
-                Navigator.push(context, CupertinoPageRoute(builder: (c)=> EditPhoneProfile()));
-              }),
-              _buildDivider(),
-              _buildSettingSubSection("Ubah Alamat", () => null),
-              _buildDivider(),
-              _buildSettingSubSection("Ubah Password", () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
-              }),
-              _buildDivider(),
-              _buildSettingParentSection("Pengaturan Aplikasi"),
-              _buildDivider(),
-              _buildSettingSubSection("Pengaturan Notifikasi", () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (c) => SettingNotification()));
-              }),
-              _buildDivider(),
-              _buildSettingSubSection("Laporkan Masalah", () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (c) => ReportProblems()));
-              }),
-              _buildDivider(),
-              _buildSettingParentSection("Kebijakan dan Pertanyaan"),
-              _buildDivider(),
-              _buildSettingSubSection("Kebijakan Aplikasi", () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
-              }),
-              _buildDivider(),
-              _buildSettingSubSection("FAQ", () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
-              }),
-              _buildDivider(),
-              
-              exploriaPrimaryButton(context: context, text: "Logout", isEnabled: true, onPressed: (){}),
-              const SizedBox(
-                height: 48,
-              ),
-            ],
-          ),
-        ),
+        child: SingleChildScrollView(child: blocListener(blocBuilder())),
       ),
+    );
+  }
+
+  Widget _buildProfileBody(HostProfile profile) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        BuildProfileHeader(
+          headline: profile.headline,
+          image: profile.imageUrl,
+          name: profile.fullName,
+        ),
+        BuildVerificationCard(isVerifying: profile.verifiedDate == null ? false : true),
+        const SizedBox(
+          height: 32,
+        ),
+        BuildSaldoAndPoint(
+          balance: profile.balance.toRupiah(),
+          point: "${profile.point}pts",
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        _buildSettingParentSection("Pengaturan Akun"),
+        _buildDivider(),
+        _buildSettingSubSection("Ubah Nomor Telfon", () {
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (c) => const EditPhoneProfile()));
+        }),
+        _buildDivider(),
+        _buildSettingSubSection("Ubah Alamat", () => null),
+        _buildDivider(),
+        _buildSettingSubSection("Ubah Password", () {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
+        }),
+        _buildDivider(),
+        _buildSettingParentSection("Pengaturan Aplikasi"),
+        _buildDivider(),
+        _buildSettingSubSection("Pengaturan Notifikasi", () {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (c) => SettingNotification()));
+        }),
+        _buildDivider(),
+        _buildSettingSubSection("Laporkan Masalah", () {
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (c) => ReportProblems()));
+        }),
+        _buildDivider(),
+        _buildSettingParentSection("Kebijakan dan Pertanyaan"),
+        _buildDivider(),
+        _buildSettingSubSection("Kebijakan Aplikasi", () {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
+        }),
+        _buildDivider(),
+        _buildSettingSubSection("FAQ", () {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
+        }),
+        _buildDivider(),
+        exploriaPrimaryButton(
+            context: context,
+            text: "Logout",
+            isEnabled: true,
+            onPressed: () {}),
+        const SizedBox(
+          height: 48,
+        ),
+      ],
     );
   }
 

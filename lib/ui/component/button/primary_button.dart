@@ -20,7 +20,7 @@ Widget exploriaPrimaryButton({
 
   return Container(
     height: 55,
-    padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+    margin: const EdgeInsets.symmetric(horizontal: 16),
     child: ElevatedButton(
       style: raisedButtonStyle,
       child: Text(
@@ -37,6 +37,7 @@ Widget exploriaBorderButton({
   required String text,
   required bool isEnabled,
   required Function() onPressed,
+  Color? buttonColor,
 }) {
   return InkWell(
     onTap: onPressed,
@@ -46,15 +47,47 @@ Widget exploriaBorderButton({
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadiusDirectional.circular(8),
-        border: Border.all(color: ExploriaTheme.primaryColor)
+        border: Border.all(color: buttonColor ?? ExploriaTheme.primaryColor)
       ),
       padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(fontSize: 15, color: ExploriaTheme.primaryColor),
+          style: TextStyle(fontSize: 15, color: buttonColor ?? ExploriaTheme.primaryColor),
         ),
       ),
+    ),
+  );
+}
+
+Widget exploriaPrimaryButtonResizeable({
+  required BuildContext context,
+  required String text,
+  required bool isEnabled,
+  required Function() onPressed,
+  required double minimumWidth,
+  required double minimumHeight,
+}) {
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    onPrimary: Colors.white,
+    primary: isEnabled ? ExploriaTheme.primaryColor : Colors.grey,
+    minimumSize: Size(minimumWidth, minimumHeight),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+  );
+
+  return Container(
+    height: minimumHeight,
+    padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+    child: ElevatedButton(
+      style: raisedButtonStyle,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 15),
+      ),
+      onPressed: isEnabled ? onPressed : (){},
     ),
   );
 }

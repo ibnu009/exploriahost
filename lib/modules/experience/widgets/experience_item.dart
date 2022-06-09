@@ -1,6 +1,8 @@
+import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/core/network/response/experience/experience_etalase_response.dart';
+import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
-import 'package:exploriahost/utils/currency_formatter.dart';
+import 'package:exploriahost/utils/int_ext.dart';
 import 'package:flutter/material.dart';
 
 String imageP = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNGn2ApoDdsvsla7BGl_jx7lZXFoeb0nkvG-oxwdRE9DRvfdshJPE7nZwOOLc1NLKYf_E&usqp=CAU";
@@ -27,11 +29,10 @@ class ExperienceItem extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  experience.imageUrl ?? imageP,
+                child: ExploriaImageNetwork(
+                  imageUrl: '$BASE_URL${experience.imageUrl}',
                   width: 80,
                   height: 100,
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -64,7 +65,7 @@ class ExperienceItem extends StatelessWidget {
                       const Text("/orang")
                     ],
                   ),
-                  Text('${experience.duration} Jam'),
+                  Text('Durasi ${experience.duration} Jam'),
                   const SizedBox(
                     height: 8,
                   ),
@@ -109,9 +110,9 @@ class ExperienceItem extends StatelessWidget {
       case 1:
         return ExploriaTheme.primaryColor;
       case 2:
-        return Colors.yellow;
+        return Colors.orange;
       default:
-        return Colors.yellow;
+        return Colors.orange;
     }
   }
 

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:exploriahost/core/network/request/create_experience_request.dart';
 import 'package:exploriahost/core/network/response/auth/LoginResponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
-const BASE_URL = 'https://bb9e-125-166-119-31.ngrok.io';
+const BASE_URL = 'https://f125-2001-448a-5122-51da-813a-9a6e-c65c-baf5.ngrok.io';
 
 abstract class NetworkService {
   final logger = Logger(printer: PrettyPrinter());
@@ -27,6 +28,18 @@ abstract class NetworkService {
     try {
       final response = await http.post(Uri.parse(endpoint),
           body: json.encode(body), headers: headers);
+      Map<String, dynamic> res = jsonDecode(response.body);
+      logger.d(res);
+      return res;
+    } on SocketException {
+      throw Exception("Connection Failed");
+    }
+  }
+
+  Future<dynamic> postMethodNoBody(String endpoint,
+      { Map<String, String>? headers}) async {
+    try {
+      final response = await http.post(Uri.parse(endpoint), headers: headers);
       Map<String, dynamic> res = jsonDecode(response.body);
       logger.d(res);
       return res;
@@ -113,5 +126,29 @@ abstract class NetworkService {
       body: jsonEncode(<String, Object>{'email': email, 'password': password}),
     );
     return LoginResponse.fromJson(json.decode(response.body));
+  }
+
+  Future<dynamic> createExperienceService(String endpoint,
+      {Map<String, String>? header, dynamic body, required List<File> files}) async {
+    try {
+      var uri = Uri.parse(endpoint);
+      var request = http.MultipartRequest("POST", uri);
+
+      for (var element in files) {
+        request.files.add(await http.MultipartFile.fromPath('files', element.path,
+            contentType: MediaType('image','*')));
+      }
+
+      if (header != null) request.headers.addAll(header);
+      if (body != null) request.fields.addAll(body);
+
+      var response = await request.send().then(http.Response.fromStream);
+      var res = jsonDecode(response.body);
+      logger.d(res);
+      return res;
+
+    } on SocketException {
+      throw Exception("Connection Failed");
+    }
   }
 }

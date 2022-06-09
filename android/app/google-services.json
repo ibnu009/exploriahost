@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096833812757",
+    "project_id": "exploria-host",
+    "storage_bucket": "exploria-host.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096833812757:android:6677a1db32f708d7e2411c",
+        "android_client_info": {
+          "package_name": "com.pancakara.exploriahost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096833812757-qcnbb8dm2dars6rk20e4a86epd45b3p5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUTyJShSEtAaReUh10rwLWDbKJi1zZ5wE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096833812757-qcnbb8dm2dars6rk20e4a86epd45b3p5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

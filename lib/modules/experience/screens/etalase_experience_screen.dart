@@ -1,5 +1,6 @@
 import 'package:exploriahost/modules/experience/screens/add/add_experience_screen.dart';
 import 'package:exploriahost/modules/experience/widgets/etalase_experience_tab.dart';
+import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,76 +42,88 @@ class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: ExploriaTheme.primaryColor,
-        automaticallyImplyLeading: true,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: Text('Etalase Experience',
-            style: ExploriaTheme.bodyText.copyWith(color: Colors.white)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => const AddExperienceScreen()),
-                );
-              },
+    return WillPopScope(
+      onWillPop: () async {
+        _backToHome();
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: ExploriaTheme.primaryColor,
+          automaticallyImplyLeading: true,
+          iconTheme: const IconThemeData(color: Colors.white),
+          leading: InkWell(
+              onTap: _backToHome,
               child: const Icon(
-                Icons.add,
+                Icons.arrow_back,
                 color: Colors.white,
-                size: 24,
+              )),
+          title: Text('Etalase Experience',
+              style: ExploriaTheme.bodyText.copyWith(color: Colors.white)),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => const AddExperienceScreen()),
+                  );
+                },
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
-            ),
-          )
-        ],
-        centerTitle: true,
-        elevation: 4,
-      ),
-      body: SafeArea(
-        child: DefaultTabController(
-          length: 4,
-          initialIndex: currTab,
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24)),
-                child: TabBar(
-                  isScrollable: true,
-                  labelStyle: GoogleFonts.getFont(
-                    'Roboto',
+            )
+          ],
+          centerTitle: true,
+          elevation: 4,
+        ),
+        body: SafeArea(
+          child: DefaultTabController(
+            length: 4,
+            initialIndex: currTab,
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 16, bottom: 16),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24)),
+                  child: TabBar(
+                    isScrollable: true,
+                    labelStyle: GoogleFonts.getFont(
+                      'Roboto',
+                    ),
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    indicatorColor: Colors.transparent,
+                    controller: tabController,
+                    tabs: [
+                      _tabItem(0, "All"),
+                      _tabItem(1, "Accepted"),
+                      _tabItem(2, "Pending"),
+                      _tabItem(3, "Rejected")
+                    ],
                   ),
-                  indicatorPadding: EdgeInsets.zero,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                  indicatorColor: Colors.transparent,
-                  controller: tabController,
-                  tabs: [
-                    _tabItem(0, "All"),
-                    _tabItem(1, "Accepted"),
-                    _tabItem(2, "Pending"),
-                    _tabItem(3, "Rejected")
-                  ],
                 ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  children: const [
-                    EtalaseExperienceTab(status: "all"),
-                    EtalaseExperienceTab(status: "accepted"),
-                    EtalaseExperienceTab(status: "pending"),
-                    EtalaseExperienceTab(status: "rejected"),
-                  ],
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: const [
+                      EtalaseExperienceTab(status: "all"),
+                      EtalaseExperienceTab(status: "accepted"),
+                      EtalaseExperienceTab(status: "pending"),
+                      EtalaseExperienceTab(status: "rejected"),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -147,6 +160,12 @@ class _EtalaseExperienceScreenState extends State<EtalaseExperienceScreen>
             )),
       ),
     );
+  }
+
+  void _backToHome() {
+    Navigator.of(context).pushAndRemoveUntil(
+        CupertinoPageRoute(builder: (context) => const HomeScreen()),
+        (Route<dynamic> route) => false);
   }
 
   @override

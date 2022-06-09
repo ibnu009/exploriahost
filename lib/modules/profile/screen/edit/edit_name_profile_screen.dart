@@ -35,18 +35,20 @@ class _EditNameProfileState extends State<EditNameProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                  padding: EdgeInsets.fromLTRB(18, 20, 18, 15),
+                  padding: const EdgeInsets.fromLTRB(18, 20, 18, 15),
                   child: Text('Harap menggunakan nama asli untuk memudahkan menjual Experience kamu.', style: ExploriaTheme.text1,)
               ),
-              ExploriaGenericTextInputHint(text: 'Nama'),
+              const ExploriaGenericTextInputHint(text: 'Nama'),
               ExploriaGenericTextInput(controller: _nameController, inputType: TextInputType.name),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 9, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 20.0),
                 child: exploriaPrimaryButton(
                   context: context,
                   text: 'Simpan',
                   isEnabled: true,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop({'profile_name': _nameController.text});
+                  },
                 ),
               )
             ]

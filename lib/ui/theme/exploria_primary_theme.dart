@@ -54,11 +54,8 @@ class ExploriaTheme {
     fontSize: 24,
   );
 
-  static TextStyle get bodyText => GoogleFonts.getFont(
-      poppins,
-      color: ExploriaTheme.greydark,
-      fontWeight: FontWeight.w400,
-      fontSize: 14);
+  static TextStyle get bodyText => GoogleFonts.getFont(poppins,
+      color: ExploriaTheme.greydark, fontWeight: FontWeight.w400, fontSize: 15);
 
   static TextStyle get title1 => GoogleFonts.getFont(
     poppins,

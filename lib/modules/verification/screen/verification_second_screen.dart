@@ -1,7 +1,7 @@
 import 'package:exploriahost/modules/verification/screen/verification_address_screen.dart';
+import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
-import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,6 @@ class _VerificationSecondScreenState extends State<VerificationSecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -89,7 +88,12 @@ class _VerificationSecondScreenState extends State<VerificationSecondScreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (c) => const VerificationAddresscreen(),
+                          builder: (c) => VerificationAddresscreen(
+                            fullName: _nameController.text,
+                            description: _descriptionController.text,
+                            headline: _headlineController.text,
+                            phoneNumber: _phoneController.text,
+                          ),
                         ),
                       );
                     }

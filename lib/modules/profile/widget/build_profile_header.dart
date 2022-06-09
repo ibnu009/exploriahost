@@ -1,10 +1,19 @@
+import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/modules/profile/screen/edit/edit_profile_start_screen.dart';
+import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildProfileHeader extends StatelessWidget {
-  const BuildProfileHeader({Key? key}) : super(key: key);
+  final String image, name, headline;
+
+  const BuildProfileHeader(
+      {Key? key,
+      required this.image,
+      required this.name,
+      required this.headline})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +24,13 @@ class BuildProfileHeader extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
               child: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(
-                    "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1578620671/wwa6sd5wyp1wxjrder5i.png"),
+                backgroundImage: NetworkImage(image.isNotEmpty
+                    ? '$BASE_URL$image'
+                    : defaultImage),
               ),
             ),
             Padding(
@@ -30,20 +40,32 @@ class BuildProfileHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Ibnu Batutah", style: ExploriaTheme.subTitle.copyWith(color: Colors.white)),
-                  Text("Belum ada Headline", style: TextStyle(fontSize: 13, color: Colors.white)),
+                  Text(name,
+                      style:
+                          ExploriaTheme.subTitle.copyWith(color: Colors.white)),
+                  Text(headline.isEmpty ? "Belum ada Headline" : headline,
+                      style:
+                          const TextStyle(fontSize: 13, color: Colors.white)),
                 ],
               ),
             ),
             const Spacer(),
             InkWell(
-              onTap: (){
-                Navigator.push(context, CupertinoPageRoute(builder: (c) => const EditProfileStartScreen()));
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (c) => EditProfileStartScreen(
+                      headline: headline,
+                      name: name,
+                      image: image,
+                    ),
+                  ),
+                );
               },
               child: const Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-                child: Icon(Icons.edit,
-                    color: Colors.white),
+                child: Icon(Icons.edit, color: Colors.white),
               ),
             ),
           ],
