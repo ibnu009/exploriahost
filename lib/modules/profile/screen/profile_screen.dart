@@ -1,4 +1,5 @@
 import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/modules/pencairan_saldo/screen/tarik_saldo.dart';
 import 'package:exploriahost/modules/profile/screen/edit/edit_password_profile_screen.dart';
 import 'package:exploriahost/modules/profile/screen/edit/edit_phone_profile_screen.dart';
 import 'package:exploriahost/modules/profile/widget/build_profile_header.dart';
@@ -163,7 +164,13 @@ class BuildSaldoAndPoint extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildButton("Saldo", balance ?? "Rp 0", 'assets/ic_money.svg'),
+            InkWell(
+                onTap: (){
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (c) => const TarikSaldoScreen())
+                  );
+                },
+                child: _buildButton("Saldo", balance ?? "Rp 0", 'assets/ic_money.svg')),
             const VerticalDivider(color: Colors.black26, thickness: 1),
             _buildButton(
                 "Points", point ?? "0pts", 'assets/ic_point_exploria.svg'),

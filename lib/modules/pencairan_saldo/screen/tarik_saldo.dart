@@ -1,8 +1,11 @@
+import 'package:exploriahost/modules/pencairan_saldo/screen/pencairan_detail.dart';
+import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_generic_dropdown.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TarikSaldoScreen extends StatefulWidget {
@@ -46,7 +49,9 @@ class _TarikSaldoScreenState extends State<TarikSaldoScreen> {
                         style: ExploriaTheme.text1,)
                   ),
                   ExploriaGenericTextInputHint(text: 'Jumlah Saldo'),
-                  Text('Rp. 100000', style: ExploriaTheme.title.copyWith(fontSize: 16),),
+                  Padding(
+                      padding: EdgeInsets.only(left: 18),
+                      child: Text('Rp. 100000', style: ExploriaTheme.title.copyWith(fontSize: 16),)),
                   ExploriaGenericTextInputHint(text: 'Jumlah Saldo yang Ingin Ditarik'),
                   ExploriaGenericTextInput(controller: _moneyController, inputType: TextInputType.number),
                   _buildDivider(),
@@ -64,7 +69,19 @@ class _TarikSaldoScreenState extends State<TarikSaldoScreen> {
                 ],
               ),
             )
-        )
+        ),
+      bottomNavigationBar:
+      Container(
+        padding: EdgeInsets.all(20.0),
+        child: exploriaPrimaryButton(
+            context: context,
+            text: 'Tarik Saldo',
+            isEnabled: true,
+            onPressed: (){
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (c) => const PencairanSaldoScreen()));
+            }),
+      ),
     );
   }
   Widget _buildDivider() {

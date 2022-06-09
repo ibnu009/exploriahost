@@ -1,3 +1,4 @@
+import 'package:exploriahost/modules/experience/screens/detail_experience/detail_experience_pending_verification.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/modules/splash/splash_screen.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: primaryThemeColor,
       ),
-      home: const HomeScreen()
+      home: const SplashScreen()
     );
   }
 }
