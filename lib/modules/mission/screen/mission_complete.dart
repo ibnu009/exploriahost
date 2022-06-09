@@ -5,10 +5,12 @@ import 'package:exploriahost/modules/mission/screen/feedback_mission_complate.da
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_choose_image.dart';
 import 'package:exploriahost/ui/component/image/image_full_screen.dart';
+import 'package:exploriahost/ui/component/map/map_screen.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MissionCompleteScreen extends StatefulWidget {
@@ -21,6 +23,32 @@ class MissionCompleteScreen extends StatefulWidget {
 class _MissionCompleteScreenState extends State<MissionCompleteScreen> {
   List<File> images = [];
   final picker = ImagePicker();
+
+  late GoogleMapController mapController;
+  double? _markedLatitude, _markedLongitude;
+  List<Marker> myMarker = [];
+
+  void _onMapCreated(GoogleMapController controller) {
+    if (_markedLatitude != null && _markedLongitude != null) {
+      mapController = controller;
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(_markedLatitude ?? 0.0, _markedLongitude ?? 0.0),
+              zoom: 15),
+        ),
+      );
+      Marker initialLocationMarker = Marker(
+        draggable: true,
+        markerId: const MarkerId("1"),
+        position: LatLng(_markedLatitude ?? 0.0, _markedLongitude ?? 0.0),
+        icon: BitmapDescriptor.defaultMarker,
+      );
+      setState(() {
+        myMarker.add(initialLocationMarker);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +71,45 @@ class _MissionCompleteScreenState extends State<MissionCompleteScreen> {
         body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 16,),
                   ExploriaGenericTextInputHint(text: 'Foto Misi (Berupa lokasi, menu yang disediakan, dll) *'),
                   _buildImageGallery(),
-                  ExploriaGenericTextInputHint(text: 'Foto Misi (Berupa lokasi, menu yang disediakan, dll) *'),
-                  exploriaBorderButton(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Divider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Row(
+                    children:  [
+                      const ExploriaGenericTextInputHint(
+                        text: 'Foto Misi(Berupa lokasi,menu yang disediakan,dll)*',
+                      ),
+                      const Spacer(),
+                      Visibility(
+                        visible: _markedLatitude != null,
+                        child: InkWell(
+                          onTap: () => _initiateToLocationPicker(),
+                          child: const Text(
+                            "Ubah Lokasi", style: TextStyle(color: ExploriaTheme.primaryColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16,),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  _markedLatitude == null
+                      ? exploriaBorderButton(
                       context: context,
                       text: 'Tambahkan Pin Point',
                       isEnabled: true,
-                      onPressed: (){}
-                  )
+                      onPressed: () => _initiateToLocationPicker())
+                      : _buildAddressMap(),
                 ],
               ),
             )
@@ -170,5 +227,36 @@ class _MissionCompleteScreenState extends State<MissionCompleteScreen> {
         Navigator.pop(context);
       } else {}
     });
+  }
+
+  Future<void> _initiateToLocationPicker() async {
+    var result = await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => const MapScreen(),
+      ),
+    );
+
+    if (result != null || result != "") {
+      setState(() {
+        _markedLatitude = result['latitude'] as double;
+        _markedLongitude = result['longitude'] as double;
+      });
+    }
+  }
+
+  Widget _buildAddressMap() {
+    return Container(
+      height: 150,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: GoogleMap(
+        onMapCreated: _onMapCreated,
+        markers: Set.from(myMarker),
+        initialCameraPosition: CameraPosition(
+          target: LatLng(_markedLatitude ?? 0.0, _markedLongitude ?? 0.0),
+          zoom: 11.0,
+        ),
+      ),
+    );
   }
 }

@@ -97,9 +97,13 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Location Picker'),
-        backgroundColor: ExploriaTheme.primaryColor,
-        foregroundColor: Colors.white,
+        title: Text(
+            'Pin Point Lokasi',
+            style: ExploriaTheme.smallTitle,
+        textAlign: TextAlign.center,),
+        elevation: 0,
+        backgroundColor: Colors.white12,
+        foregroundColor: ExploriaTheme.primaryColor,
       ),
       body: Stack(
         children: [
@@ -157,7 +161,7 @@ class _MapScreenState extends State<MapScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: exploriaPrimaryButton(
                     context: context,
-                    text: 'Simpan',
+                    text: 'Pin Point Lokasi ini',
                     isEnabled: true,
                     onPressed: () => _saveAddress(),
                   ),
