@@ -15,6 +15,13 @@ class GetDetailExperience extends ExperienceEvent {
   GetDetailExperience(this.uuidExperience);
 }
 
+class DeleteExperience extends ExperienceEvent {
+  String uuidExperience;
+  GenericDelegate delegate;
+
+  DeleteExperience(this.uuidExperience, this.delegate);
+}
+
 class CreateExperience extends ExperienceEvent {
   CreateExperienceRequest request;
   GenericDelegate delegate;

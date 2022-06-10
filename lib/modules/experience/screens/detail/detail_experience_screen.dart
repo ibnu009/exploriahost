@@ -2,13 +2,17 @@ import 'package:exploriahost/core/network/response/experience/experience_detail_
 import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_state.dart';
+import 'package:exploriahost/modules/experience/screens/detail/detail_experience_others_screen.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_row_network.dart';
 import 'package:exploriahost/ui/component/text/exploria_edit_field_text.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:exploriahost/utils/int_ext.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +26,7 @@ class DetailExperienceScreen extends StatefulWidget {
   State<DetailExperienceScreen> createState() => _DetailExperienceScreenState();
 }
 
-class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
+class _DetailExperienceScreenState extends State<DetailExperienceScreen> with GenericDelegate {
   late ExperienceBloc _bloc;
 
   Widget blocListener(Widget child) {
@@ -116,7 +120,17 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
             child: ExploriaGenericTextInputHint(text: "Experience Lainnya"),
           ),
           InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (c) => DetaiLExperienceOtherScreen(
+                      appBarText: "Experience Lainnya",
+                      data: _getOtherExperience(detailExperience.otherExperiences),
+                    ),
+                  ),
+                );
+              },
               child: _buildDetailExperienceFieldButton(
                   "Terdapat ${_getOtherExperience(detailExperience.otherExperiences).length} Experiences")),
           const Padding(
@@ -124,7 +138,17 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
             child: ExploriaGenericTextInputHint(text: "Fasilitas"),
           ),
           InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (c) => DetaiLExperienceOtherScreen(
+                      appBarText: "Fasilitas",
+                      data: _getFacilities(detailExperience.facilities),
+                    ),
+                  ),
+                );
+              },
               child: _buildDetailExperienceFieldButton(
                   "Terdapat ${_getFacilities(detailExperience.facilities).length} Fasilitas Tambahan")),
           const Padding(
@@ -132,7 +156,10 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
             child: ExploriaGenericTextInputHint(text: "Review Experience"),
           ),
           InkWell(
-              onTap: () {},
+              onTap: () {
+                showOkDialog(context, "Peringatan",
+                    "Belum ada review pada experience mu");
+              },
               child:
                   _buildDetailExperienceFieldButton("Lihat Review Experience")),
           Padding(
@@ -142,7 +169,12 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
                 text: "Hapus",
                 color: Colors.red,
                 isEnabled: true,
-                onPressed: () {}),
+                onPressed: () {
+                  showYesNoDialog(context, "Peringatan", "Yakin untuk menghapus experience ini?", (){
+                    Navigator.pop(context);
+                    _bloc.add(DeleteExperience(detailExperience.uuidExperience, this));
+                  }, () => Navigator.of(context).pop(),);
+                }),
           )
         ],
       ),
@@ -207,5 +239,41 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> {
         children: resultWidget,
       ),
     );
+  }
+
+  @override
+  void onError(String message) {
+    showFailedDialog(
+        context: context,
+        title: "Failed!",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+  }
+
+  @override
+  void onSuccess(String message) {
+    showSuccessDialog(
+        context: context,
+        title: "Success!",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+  }
+
+  @override
+  void onLoading() {
+    showLoadingDialog(context: context);
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 }

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
-const BASE_URL = 'https://9943-125-166-119-77.ngrok.io';
+const BASE_URL = 'https://742b-125-166-119-31.ngrok.io';
 
 abstract class NetworkService {
   final logger = Logger(printer: PrettyPrinter());
@@ -107,6 +107,17 @@ abstract class NetworkService {
     try {
       final response = await http.put(Uri.parse(endpoint),
           body: json.encode(body), headers: header);
+      var res = json.decode(response.body);
+      logger.d(res);
+      return res;
+    } on SocketException {
+      throw Exception("Connection Failed");
+    }
+  }
+
+  Future<dynamic> deleteMethod(String endpoint, Map<String, String>? headers) async {
+    try {
+      final response = await http.delete(Uri.parse(endpoint), headers: headers);
       var res = json.decode(response.body);
       logger.d(res);
       return res;

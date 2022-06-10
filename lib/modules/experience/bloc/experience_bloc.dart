@@ -27,6 +27,17 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
       } else {}
     });
 
+    on<DeleteExperience>((event, emit) async {
+      _delegate = event.delegate;
+      _delegate.onLoading();
+      var data = await _repository.deleteExperience(event.uuidExperience);
+      if (data.status == 201) {
+        _delegate.onSuccess(data.message ?? "");
+      } else {
+        _delegate.onError(data.message ?? "");
+      }
+    });
+
     on<CreateExperience>((event, emit) async {
       _delegate = event.delegate;
       _delegate.onLoading();
@@ -39,5 +50,7 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
         _delegate.onError(data.message ?? "");
       }
     });
+
+
   }
 }

@@ -1,6 +1,6 @@
 import 'package:exploriahost/core/network/network_service.dart';
 import 'package:exploriahost/core/network/response/experience/experience_etalase_response.dart';
-import 'package:exploriahost/modules/experience/screens/detail_experience_screen.dart';
+import 'package:exploriahost/modules/experience/screens/detail/detail_experience_screen.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/int_ext.dart';

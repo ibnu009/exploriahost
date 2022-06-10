@@ -42,6 +42,16 @@ class ExperienceRepository extends NetworkService {
     return DetailExperienceResponse.fromJson(map);
   }
 
+  Future<GenericResponse> deleteExperience(String uuidExperience) async {
+    String? readData = await storage.read(key: 'token') ?? "";
+
+    var header = {contentType: applicationJson, token: readData};
+    var map = await deleteMethod(
+        "$BASE_URL/api/host/experience/delete/$uuidExperience", header);
+
+    return GenericResponse.fromJson(map);
+  }
+
   Future<GenericResponse> createExperience(
       CreateExperienceRequest request) async {
     String? readData = await storage.read(key: 'token') ?? "";

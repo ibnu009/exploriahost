@@ -218,9 +218,9 @@ class BuildSaldoAndPoint extends StatelessWidget {
           children: [
             InkWell(
                 onTap: (){
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (c) => const TarikSaldoScreen())
-                  );
+                  // Navigator.push(context,
+                  //     CupertinoPageRoute(builder: (c) => const TarikSaldoScreen())
+                  // );
                 },
                 child: _buildButton("Saldo", balance ?? "Rp 0", 'assets/ic_money.svg')),
             const VerticalDivider(color: Colors.black26, thickness: 1),

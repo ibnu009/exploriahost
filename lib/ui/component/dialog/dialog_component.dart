@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
-
+import 'package:flutter/material.dart';
 
 void showSuccessDialog({required BuildContext context, required String title, required String message, VoidCallback? onTap}) {
   CoolAlert.show(
@@ -43,6 +42,27 @@ void showOkDialog(BuildContext context, String title, String message) {
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
           child: const Text('Ok'),
+        ),
+      ],
+    ),
+  );
+}
+
+void showYesNoDialog(BuildContext context, String title, String message,
+    Function() onYesTap, Function() onNoTap) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: <Widget>[
+        TextButton(
+          onPressed: onYesTap,
+          child: const Text('Iya'),
+        ),
+        TextButton(
+          onPressed: onNoTap,
+          child: const Text('Tidak'),
         ),
       ],
     ),
