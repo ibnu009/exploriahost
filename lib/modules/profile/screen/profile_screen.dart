@@ -98,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             image: profile.imageUrl,
             name: profile.fullName,
           ),
-          BuildVerificationCard(isVerifying: profile.verifiedDate == null ? false : true),
+          BuildVerificationCard(isVerifying: profile.verified == 2),
           const SizedBox(
             height: 32,
           ),

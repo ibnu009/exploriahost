@@ -25,8 +25,8 @@ class ScheduleRepository extends NetworkService {
     String? readData = await storage.read(key: 'token') ?? "";
 
     var header = {contentType: applicationJson, token: readData};
-    var map = await getMethod(
-        "$BASE_URL/api/host/schedule", header);
+
+    var map = await getMethod("$BASE_URL/api/host/schedule", header);
 
     return ScheduleItemResponse.fromJson(map);
   }

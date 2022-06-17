@@ -24,6 +24,7 @@ class _AllScheduleScreenState extends State<AllScheduleScreen> {
     _bloc.add(GetSchedule());
   }
 
+
   Widget blocListener(Widget child) {
     return BlocListener(
       bloc: _bloc,
@@ -42,16 +43,19 @@ class _AllScheduleScreenState extends State<AllScheduleScreen> {
           );
         }
         if (state is ShowSchedules) {
-          return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: state.schedules.length,
-              itemBuilder: (context, index) {
-                return BuildItemSchedule(
-                  schedule: state.schedules[index],
-                );
-              });
+          return RefreshIndicator(
+            onRefresh: () async => _bloc.add(GetSchedule()),
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: state.schedules.length,
+                itemBuilder: (context, index) {
+                  return BuildItemSchedule(
+                    schedule: state.schedules[index],
+                  );
+                }),
+          );
         }
-        return Container();
+        return const SizedBox();
       },
     );
   }

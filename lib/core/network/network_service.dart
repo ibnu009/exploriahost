@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
-const BASE_URL = 'https://742b-125-166-119-31.ngrok.io';
+const BASE_URL = 'https://a933-125-166-119-46.ngrok.io';
 
 abstract class NetworkService {
   final logger = Logger(printer: PrettyPrinter());
@@ -127,7 +127,6 @@ abstract class NetworkService {
   }
 
   Future<LoginResponse> loginUser(String email, String password) async {
-    print("Loginn cuyyy");
     final response = await http.post(
       Uri.parse("$BASE_URL/api/login"),
       headers: <String, String>{

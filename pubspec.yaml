@@ -35,10 +35,11 @@ dependencies:
   flutter_svg: ^1.0.0
   location:
   google_maps_flutter: ^2.1.1
-  dotted_border: ^2.0.0+2
-  file_picker:
   geolocator: ^8.1.1
   geocoding:
+  dotted_border: ^2.0.0+2
+  file_picker:
+
   image_picker: ^0.8.4
   firebase_messaging: ^11.4.1
   # The following adds the Cupertino Icons font to your application.
@@ -63,6 +64,12 @@ dev_dependencies:
   logger:
   flutter_secure_storage:
   cool_alert: ^1.1.0
+  flutter_launcher_icons: ^0.9.3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logoexploria.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

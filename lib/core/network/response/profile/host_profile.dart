@@ -12,6 +12,7 @@ class HostProfile {
     required this.address,
     required this.point,
     required this.balance,
+    required this.verified,
     required this.verifiedDate,
   });
 
@@ -27,6 +28,7 @@ class HostProfile {
   String address;
   int point;
   int balance;
+  int verified;
   DateTime? verifiedDate;
 
   factory HostProfile.fromJson(Map<String, dynamic> json) => HostProfile(
@@ -42,6 +44,7 @@ class HostProfile {
     address: json["address"] == null ? null : json["address"],
     point: json["point"] == null ? null : json["point"],
     balance: json["balance"] == null ? null : json["balance"],
+    verified: json["verified"] == null ? null : json["verified"],
     verifiedDate: json["verified_date"] == null ? null : DateTime.parse(json["verified_date"]),
   );
 
@@ -58,6 +61,7 @@ class HostProfile {
     "address": address == null ? null : address,
     "point": point == null ? null : point,
     "balance": balance == null ? null : balance,
+    "verified" : verified,
     "verified_date": verifiedDate,
   };
 }

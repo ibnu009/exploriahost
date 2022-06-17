@@ -1,3 +1,4 @@
+import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:flutter/material.dart';
 
 const String defaultImage = "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1578620671/wwa6sd5wyp1wxjrder5i.png";
@@ -17,12 +18,10 @@ class ExploriaImageNetwork extends StatelessWidget {
       loadingBuilder: (BuildContext context, Widget child,
           ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                : null,
+        return const Center(
+          child: ExploriaLoading(
+            width: 80,
+            height: 80,
           ),
         );
       },
