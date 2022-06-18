@@ -103,7 +103,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             image: profile.imageUrl,
             name: profile.fullName,
           ),
-          BuildVerificationCard(isVerifying: profile.verified == 2),
+          Visibility(
+              visible: profile.verified != 1,
+              maintainSize: false,
+              child: BuildVerificationCard(isVerifying: profile.verified == 2)),
           const SizedBox(
             height: 32,
           ),

@@ -44,6 +44,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   void dispose() {
+    _bloc.dispose();
     _bloc.close();
     super.dispose();
   }
@@ -71,7 +72,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(child: _buildChatList(state.chats)),
+              Expanded(
+                child: StreamBuilder(
+                  stream: _bloc.liveChats,
+                  initialData: state.chats,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<ChatMessage>> snapshot) {
+                    debugPrint("Data is ${snapshot.data}");
+                    return _buildChatList(snapshot.data ?? []);
+                  },
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Row(
@@ -83,7 +94,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     Padding(
                       padding: const EdgeInsets.only(right: 12.0),
                       child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (_chatController.text.isEmpty) {
+                              return;
+                            }
+                            _bloc.add(SendChat(userEmail, _chatController.text,
+                                widget.uuidChatRoom));
+                            _chatController.clear();
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
                           child: const Icon(
                             Icons.send,
                             size: 32,
@@ -124,15 +143,20 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   Widget _buildChatList(List<ChatMessage> chats) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: chats.length,
-      itemBuilder: (ctx, index) => isMyChatMessage(chats[index].senderEmail)
-          ? ChatItemMy(chat: chats[index])
-          : ChatItemOpponent(
-              chat: chats[index],
-            ),
-    );
+    return chats.isEmpty
+        ? const Center(
+            child: Text("Belum ada percakapan"),
+          )
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: chats.length,
+            itemBuilder: (ctx, index) =>
+                isMyChatMessage(chats[index].senderEmail)
+                    ? ChatItemMy(chat: chats[index])
+                    : ChatItemOpponent(
+                        chat: chats[index],
+                      ),
+          );
   }
 
   bool isMyChatMessage(String chatEmail) {

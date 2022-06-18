@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 
 class BuildUserCard extends StatelessWidget {
   final String image, name, uuidUser;
+  final Function() onTapChat;
 
   const BuildUserCard(
       {Key? key,
       required this.image,
       required this.name,
-      required this.uuidUser})
+      required this.uuidUser, required this.onTapChat})
       : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ class BuildUserCard extends StatelessWidget {
                 context: context,
                 text: 'Chat',
                 isEnabled: true,
-                onPressed: () {},
+                onPressed: onTapChat,
                 minimumWidth: 100,
                 minimumHeight: 40)
           ],

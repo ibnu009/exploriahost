@@ -1,3 +1,4 @@
+import 'package:exploriahost/core/repository/chat_repository.dart';
 import 'package:exploriahost/core/repository/schedule_repository.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_event.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_state.dart';
@@ -6,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   late ScheduleRepository _repository;
+  late ChatRepository _chatRepository;
   late GenericDelegate _delegate;
 
   ScheduleBloc() : super(InitScheduleState()) {
     _repository = ScheduleRepository.instance;
+    _chatRepository = ChatRepository.instance;
 
     on<GetSchedule>((event, emit) async {
       emit(ShowLoading());
@@ -25,6 +28,17 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       if (data.status == 200) {
         emit(ShowScheduleDetail(data.data));
       } else {}
+    });
+
+    on<OpenChatRoom>((event, emit) async {
+      _delegate = event.delegate;
+      _delegate.onLoading();
+      var data = await _chatRepository.initiatingChatRoom(event.uuidUser);
+      if (data.status == 200) {
+        _delegate.onSuccess(data.uuidChatRoom);
+      } else {
+        _delegate.onError(data.message);
+      }
     });
 
     on<SetVerificationStatus>((event, emit) async {
