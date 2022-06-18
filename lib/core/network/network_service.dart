@@ -127,6 +127,7 @@ abstract class NetworkService {
   }
 
   Future<LoginResponse> loginUser(String email, String password) async {
+    print("Loginn cuyyy");
     final response = await http.post(
       Uri.parse("$BASE_URL/api/login"),
       headers: <String, String>{

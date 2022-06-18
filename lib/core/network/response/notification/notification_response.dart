@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-NotificationResponse notificationResponseFromJson(String str) => NotificationResponse.fromJson(json.decode(str));
+NotificationResponse notificationResponseFromJson(String str) =>
+    NotificationResponse.fromJson(json.decode(str));
 
-String notificationResponseToJson(NotificationResponse data) => json.encode(data.toJson());
+String notificationResponseToJson(NotificationResponse data) =>
+    json.encode(data.toJson());
 
 class NotificationResponse {
   NotificationResponse({
@@ -15,14 +17,15 @@ class NotificationResponse {
   int status;
   int rowCount;
   String message;
-  List<Notification> data;
+  List<Notifications> data;
 
-  factory NotificationResponse.fromJson(Map<String, dynamic> json) => NotificationResponse(
-    status: json["status"],
-    rowCount: json["row_count"],
-    message: json["message"],
-    data: List<Notification>.from(json["data"].map((x) => Notification.fromJson(x))),
-  );
+  factory NotificationResponse.fromJson(Map<String, dynamic> json) =>
+      NotificationResponse(
+        status: json["status"],
+        rowCount: json["row_count"],
+        message: json["message"],
+        data: List<Notifications>.from(json["data"].map((x) => Notifications.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
     "status": status,
@@ -32,8 +35,8 @@ class NotificationResponse {
   };
 }
 
-class Notification {
-  Notification({
+class Notifications {
+  Notifications({
     required this.id,
     required this.title,
     required this.message,
@@ -49,7 +52,7 @@ class Notification {
   DateTime createDate;
   String uuidHost;
 
-  factory Notification.fromJson(Map<String, dynamic> json) => Notification(
+  factory Notifications.fromJson(Map<String, dynamic> json) => Notifications(
     id: json["id"],
     title: json["title"],
     message: json["message"],
