@@ -23,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       _delegate = event.delegate;
       _delegate.onLoading();
       var data = await _repository.verifyHostProfile(event.request, event.file);
-      if (data.status == 200) {
+      if (data.status == 200 || data.status == 201) {
         _delegate.onSuccess(data.message ?? "");
         print(data.message);
       } else {

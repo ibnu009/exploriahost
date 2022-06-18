@@ -1,4 +1,4 @@
-import 'package:exploriahost/core/network/network_service.dart';
+import 'package:exploriahost/core/network/response/chat/chat_room_response.dart';
 import 'package:exploriahost/modules/chat/screen/chat_room_screen.dart';
 import 'package:exploriahost/modules/experience/widgets/experience_item.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
@@ -7,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomItem extends StatelessWidget {
-  const ChatRoomItem({Key? key}) : super(key: key);
+  final ChatRoom chatRoom;
+
+  const ChatRoomItem({Key? key, required this.chatRoom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,8 @@ class ChatRoomItem extends StatelessWidget {
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (c) => ChatRoomScreen(),
+            builder: (c) => ChatRoomScreen(
+                uuidChatRoom: chatRoom.uuidChatRoom, name: chatRoom.name),
           ),
         );
       },
@@ -36,7 +39,8 @@ class ChatRoomItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: ExploriaImageNetwork(
-                    imageUrl: imageP,
+                    imageUrl:
+                        chatRoom.imageUrl.isEmpty ? imageP : chatRoom.imageUrl,
                     width: 80,
                     height: 80,
                   ),
@@ -52,17 +56,21 @@ class ChatRoomItem extends StatelessWidget {
                       height: 12,
                     ),
                     Text(
-                      "Ibnu",
+                      chatRoom.name,
                       style: const TextStyle(
+                          color: ExploriaTheme.primaryColor,
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                          fontSize: 20,
                           overflow: TextOverflow.ellipsis),
                       maxLines: 1,
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    Text('DurasiJam'),
+                    Text(chatRoom.lastMessage,
+                        maxLines: 2,
+                        style: const TextStyle(
+                            fontSize: 16, overflow: TextOverflow.ellipsis)),
                     const SizedBox(
                       height: 8,
                     ),

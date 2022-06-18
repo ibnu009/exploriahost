@@ -26,4 +26,10 @@ extension DateTimeConverter on DateTime {
     final String formatted = formatter.format(this);
     return formatted;
   }
+
+  String convertToHourAndMinute() {
+    final DateFormat formatter = DateFormat('HH:mm');
+    final String formatted = formatter.format(this);
+    return formatted;
+  }
 }
