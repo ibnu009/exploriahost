@@ -84,8 +84,8 @@ class UserRepository extends NetworkService {
     return readData;
   }
 
-  Object writeSecureTokenData( String value) {
-    var writeData = storage.write(key: 'token', value: value);
+  Object writeSecureTokenData(String key, String value) {
+    var writeData = storage.write(key: key, value: value);
     return writeData;
   }
 

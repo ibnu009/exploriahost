@@ -34,7 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         var data = await _repository.submitLogin(event.email, event.password);
         if (data.status == 200) {
-          _repository.writeSecureTokenData(data.token ?? "");
+          _repository.writeSecureTokenData('token', data.token ?? "");
+          _repository.writeSecureTokenData('email', event.email);
           _delegate.onSuccess();
         } else {
           _delegate.onError("Terjadi kesalahan");

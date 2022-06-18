@@ -1,4 +1,6 @@
 import 'package:exploriahost/core/network/response/profile/host_profile.dart';
+import 'package:exploriahost/core/repository/user_repository.dart';
+import 'package:exploriahost/modules/auth/login/screen/LoginScreen.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
@@ -29,11 +31,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late ProfileBloc _bloc;
+  late UserRepository _repository;
 
   @override
   void initState() {
     super.initState();
     _bloc = ProfileBloc();
+    _repository = UserRepository.instance;
+
     _bloc.add(GetHostProfile());
   }
 
@@ -151,7 +156,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               context: context,
               text: "Logout",
               isEnabled: true,
-              onPressed: () {}),
+              onPressed: () {
+                _repository.writeSecureTokenData('token', "");
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (Route<dynamic> route) => false);
+              }),
           const SizedBox(
             height: 48,
           ),

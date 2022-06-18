@@ -1,9 +1,12 @@
+import 'package:exploriahost/core/network/response/chat/chat_message_response.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/date_time_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatItemOpponent extends StatelessWidget {
-  const ChatItemOpponent({Key? key}) : super(key: key);
+  final ChatMessage chat;
+  const ChatItemOpponent({Key? key, required this.chat}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +27,14 @@ class ChatItemOpponent extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text("hahahahaha aku ngakak", style: TextStyle(color: Colors.black87)),
+                child: Text(chat.message, style: const TextStyle(color: Colors.black87)),
               ),
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: Text("18:00", style: TextStyle(color: Colors.black54, fontSize: 12)),
+          child: Text(chat.createdDate.convertToHourAndMinute(), style: const TextStyle(color: Colors.black54, fontSize: 12)),
         )
       ],
     );

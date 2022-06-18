@@ -11,6 +11,7 @@ class VerifyProfileRequest {
   String? description;
   String? phone;
   String? address;
+  String status = "2";
 
   Map<String, String> toJson() => {
         "full_name": fullName ?? "",
@@ -18,5 +19,6 @@ class VerifyProfileRequest {
         "description": description ?? "",
         "address": address ?? "",
         "phone": phone ?? "",
+        "verified": "2"
       };
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +6,7 @@ const String defaultImage = "https://blue.kumparan.com/image/upload/fl_progressi
 class ExploriaImageNetwork extends StatelessWidget {
   final String? imageUrl;
   final double? width, height;
+
   const ExploriaImageNetwork({Key? key, required this.imageUrl, this.width, this.height})
       : super(key: key);
 
