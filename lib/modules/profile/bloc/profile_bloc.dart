@@ -32,7 +32,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<LogOut>((event, emit) async{
-      _repository.writeSecureTokenData('');
+      _repository.writeSecureTokenData("token", '');
     });
   }
 }
