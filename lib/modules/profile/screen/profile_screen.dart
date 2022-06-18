@@ -1,5 +1,7 @@
 import 'package:exploriahost/core/network/response/profile/host_profile.dart';
+import 'package:exploriahost/modules/auth/login/screen/LoginScreen.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
+import 'package:exploriahost/modules/pencairan_saldo/screen/tarik_saldo.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_state.dart';
@@ -19,6 +21,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -29,7 +32,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late ProfileBloc _bloc;
-
+  final storage = const FlutterSecureStorage();
   @override
   void initState() {
     super.initState();

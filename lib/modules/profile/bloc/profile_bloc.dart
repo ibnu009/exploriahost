@@ -30,5 +30,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         _delegate.onError(data.message ?? "");
       }
     });
+
+    on<LogOut>((event, emit) async{
+      _repository.writeSecureTokenData('');
+    });
   }
 }

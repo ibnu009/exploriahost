@@ -15,3 +15,4 @@ class VerifyHostProfile extends ProfileEvent {
   VerifyHostProfile(this.request, this.file, this.delegate);
 }
 
+class LogOut extends ProfileEvent{}
