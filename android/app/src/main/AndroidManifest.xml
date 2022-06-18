@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
    <application
        android:requestLegacyExternalStorage="true"
-       android:label="exploriahost"
+       android:label="Exploria Host"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

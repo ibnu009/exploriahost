@@ -1,13 +1,12 @@
-import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:exploriahost/utils/int_ext.dart';
 import 'package:exploriahost/core/network/response/notification/notification_response.dart';
+import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/date_time_ext.dart';
+import 'package:flutter/material.dart';
 
 
 class BuildNotificationItem extends StatelessWidget {
   final Notifications notification;
-  
+
   const BuildNotificationItem({Key? key, required this.notification}) : super(key: key);
 
   @override
@@ -25,15 +24,20 @@ class BuildNotificationItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 8,),
-            Text(notification.createDate.toIso8601String()),
-            const SizedBox(height: 8,),
-            Text(
-                notification.message,
+            const SizedBox(
+              height: 8,
+            ),
+            Text(notification.createDate.convertToExploriaDateAndHour()),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(notification.message,
                 style: ExploriaTheme.smallTitle,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
