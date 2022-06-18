@@ -1,5 +1,6 @@
 import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/modules/notification/bloc/notification_bloc.dart';
+import 'package:exploriahost/modules/notification/bloc/notification_event.dart';
 import 'package:exploriahost/modules/notification/widget/build_notification_item.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
@@ -22,6 +23,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     _bloc = NotificationBloc();
+    _bloc.add(GetNotification());
   }
 
 
@@ -43,14 +45,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         }
         if (state is ShowNotifications) {
-          return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: state.notifications.length,
-              itemBuilder: (context, index) {
-                return BuildNotificationItem(
-                    notification: state.notifications[index]
-                );
-              });
+          return RefreshIndicator(
+            onRefresh: () async => _bloc.add(GetNotification()),
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: state.notifications.length,
+                itemBuilder: (context, index) {
+                  return BuildNotificationItem(
+                      notification: state.notifications[index]
+                  );
+                }),
+          );
         }
         return const SizedBox();
       },
@@ -77,18 +82,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 color: ExploriaTheme.primaryColor,
               )),
         ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20.0),
-                child: blocListener(blocBuilder()),
-                // child: ListView.builder(
-                //     itemCount: 5,
-                //     shrinkWrap: true,
-                //     physics: const NeverScrollableScrollPhysics(),
-                //     itemBuilder: (ctx, index) => BuildNotificationItem()),
-              ),
-            )
+        body: Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: blocListener(blocBuilder()),
         )
     );
   }

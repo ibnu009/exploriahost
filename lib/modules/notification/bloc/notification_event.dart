@@ -5,13 +5,13 @@ abstract class NotificationEvent {}
 class GetNotification extends NotificationEvent {}
 
 class GetNotificationDetail extends NotificationEvent {
-  String NotificationUuid;
+  String Notificationid;
 
-  GetNotificationDetail(this.NotificationUuid);
+  GetNotificationDetail(this.Notificationid);
 }
 
-class SetVerificationStatus extends NotificationEvent {
-  String NotificationUuid, status;
-  GenericDelegate delegate;
-  SetVerificationStatus(this.NotificationUuid, this.status, this.delegate);
-}
+// class SetVerificationStatus extends NotificationEvent {
+//   String NotificationUuid, status;
+//   GenericDelegate delegate;
+//   SetVerificationStatus(this.NotificationUuid, this.status, this.delegate);
+// }

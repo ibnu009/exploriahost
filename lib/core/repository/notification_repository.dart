@@ -25,27 +25,17 @@ class NotificationRepository extends NetworkService {
 
     var header = {contentType: applicationJson, token: readData};
 
-    var map = await getMethod("$BASE_URL/api/host/Notification", header);
+    var map = await getMethod("$BASE_URL/api/host/notifications", header);
 
     return NotificationResponse.fromJson(map);
   }
 
-  // Future<NotificationDetailResponse> fetchNotificationDetail(String uuidNotification) async {
-  //   String? readData = await storage.read(key: 'token') ?? "";
-  //
-  //   var header = {contentType: applicationJson, token: readData};
-  //   var map = await getMethod(
-  //       "$BASE_URL/api/host/Notification/$uuidNotification", header);
-  //
-  //   return NotificationDetailResponse.fromJson(map);
-  // }
-
-  Future<GenericResponse> setVerificationStatus(String uuidNotification, String status) async {
+  Future<GenericResponse> setReadStatus(String id, String status) async {
     String? readData = await storage.read(key: 'token') ?? "";
 
     var header = {contentType: applicationJson, token: readData};
     var map = await postMethodNoBody(
-        "$BASE_URL/api/host/Notification/verification?uuidNotification=$uuidNotification&status=$status", headers: header);
+        "$BASE_URL/api/host/notifications/read?id=$id&status=$status", headers: header);
 
     return GenericResponse.fromJson(map);
   }

@@ -8,12 +8,5 @@ class ShowLoading extends NotificationState {}
 
 class ShowNotifications extends NotificationState {
   List<Notifications> notifications;
-
   ShowNotifications(this.notifications);
 }
-
-// class ShowNotificationDetail extends NotificationState {
-//   NotificationDetail Notification;
-//
-//   ShowNotificationDetail(this.Notification);
-// }
