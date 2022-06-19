@@ -49,18 +49,19 @@ class _ChatLobbyScreenState extends State<ChatLobbyScreen> {
           );
         }
         if (state is ShowChatRooms) {
-          return state.chatRooms.isEmpty ?
-          const Center(
-            child: ExploriaGenericEmptyState(
-                assets: 'assets/empty_schedule.png',
-                text: "Belum ada Chat"),
-          ) :
-            ListView.builder(
+          return ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: state.chatRooms.length,
               itemBuilder: (context, index) {
                 return ChatRoomItem(chatRoom: state.chatRooms[index],);
               });
+        }
+
+        if (state is ShowEmptyChatRoom){
+          return const Center(
+              child: ExploriaGenericEmptyState(
+                  assets: 'assets/empty_schedule.png',
+                  text: "Belum ada Chat"));
         }
         return Container();
       },
