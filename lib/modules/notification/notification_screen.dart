@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/modules/notification/bloc/notification_bloc.dart';
 import 'package:exploriahost/modules/notification/bloc/notification_event.dart';
 import 'package:exploriahost/modules/notification/widget/build_notification_item.dart';
+import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +47,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         }
         if (state is ShowNotifications) {
-          return RefreshIndicator(
+          return state.notifications.isEmpty ?
+          const Center(
+            child: ExploriaGenericEmptyState(
+                assets: 'assets/empty_notification.png',
+                text: "Belum ada notifikasi"),
+          ) :
+            RefreshIndicator(
             onRefresh: () async => _bloc.add(GetNotification()),
             child: ListView.builder(
                 scrollDirection: Axis.vertical,

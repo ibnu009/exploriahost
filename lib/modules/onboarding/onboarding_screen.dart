@@ -91,7 +91,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 16, 0, 0),
                                   child: exploriaPrimaryButton(context: context, text: "Mulai", isEnabled: true, onPressed: (){
-                                    _repository.writeSecureTokenData('introduced', "yes");
+                                    _repository.writeSecureTokenData('intro', "yes");
                                     Navigator.push(
                                       context,
                                       CupertinoPageRoute(

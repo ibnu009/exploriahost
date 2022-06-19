@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_state.dart';
 import 'package:exploriahost/modules/experience/widgets/experience_item.dart';
+import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,12 +36,18 @@ class _EtalaseExperienceTabState extends State<EtalaseExperienceTab> {
           );
         }
         if (state is ShowEtalaseExperience) {
-          return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: state.experiences.length,
-              itemBuilder: (context, index) {
-                return ExperienceItem(experience: state.experiences[index]);
-              });
+          return state.experiences.isEmpty
+              ? Center(
+                child: ExploriaGenericEmptyState(
+                    assets: 'assets/empty_etalase.png',
+                    text: "Tidak ada etalase yang ${widget.status == "all" ? "dibuat" : widget.status}"),
+              )
+              : ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: state.experiences.length,
+                  itemBuilder: (context, index) {
+                    return ExperienceItem(experience: state.experiences[index]);
+                  });
         }
         return Container();
       },

@@ -11,6 +11,7 @@ import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/notification/notification_screen.dart';
 import 'package:exploriahost/modules/profile/screen/profile_screen.dart';
 import 'package:exploriahost/modules/schedule/screens/all_schedule_screen.dart';
+import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_network.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
@@ -141,12 +142,18 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 18,
             ),
-            ListView.builder(
-                itemCount: homeContent.schedules.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, index) =>
-                    BuildItemSchedule(schedule: homeContent.schedules[index])),
+            homeContent.schedules.isEmpty
+                ? const Center(
+                    child: ExploriaGenericEmptyState(
+                        assets: 'assets/empty_schedule.png',
+                        text: "Belum ada jadwal Experience"),
+                  )
+                : ListView.builder(
+                    itemCount: homeContent.schedules.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (ctx, index) => BuildItemSchedule(
+                        schedule: homeContent.schedules[index])),
             const SizedBox(
               height: 32,
             ),

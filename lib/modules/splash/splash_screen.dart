@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _getSharedPreferences() async {
     userToken = await _repository.readSecureData('token') ?? "";
-    introduction = await _repository.readSecureData('introduction') ?? "";
+    introduction = await _repository.readSecureData('intro') ?? "";
   }
 
   @override

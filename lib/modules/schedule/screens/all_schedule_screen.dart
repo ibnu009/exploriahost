@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/home/widget/build_item_schedule.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_bloc.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_event.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_state.dart';
+import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
@@ -43,17 +44,23 @@ class _AllScheduleScreenState extends State<AllScheduleScreen> {
           );
         }
         if (state is ShowSchedules) {
-          return RefreshIndicator(
-            onRefresh: () async => _bloc.add(GetSchedule()),
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: state.schedules.length,
-                itemBuilder: (context, index) {
-                  return BuildItemSchedule(
-                    schedule: state.schedules[index],
-                  );
-                }),
-          );
+          return state.schedules.isEmpty
+              ? const Center(
+                  child: ExploriaGenericEmptyState(
+                      assets: 'assets/empty_schedule.png',
+                      text: "Belum ada jadwal Experience"),
+                )
+              : RefreshIndicator(
+                  onRefresh: () async => _bloc.add(GetSchedule()),
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: state.schedules.length,
+                      itemBuilder: (context, index) {
+                        return BuildItemSchedule(
+                          schedule: state.schedules[index],
+                        );
+                      }),
+                );
         }
         return const SizedBox();
       },
