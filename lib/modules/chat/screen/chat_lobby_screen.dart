@@ -2,6 +2,7 @@ import 'package:exploriahost/modules/chat/bloc/chat_bloc.dart';
 import 'package:exploriahost/modules/chat/bloc/chat_even.dart';
 import 'package:exploriahost/modules/chat/bloc/chat_state.dart';
 import 'package:exploriahost/modules/chat/widget/chat_room_item.dart';
+import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,13 @@ class _ChatLobbyScreenState extends State<ChatLobbyScreen> {
           );
         }
         if (state is ShowChatRooms) {
-          return ListView.builder(
+          return state.chatRooms.isEmpty ?
+          const Center(
+            child: ExploriaGenericEmptyState(
+                assets: 'assets/empty_schedule.png',
+                text: "Belum ada Chat"),
+          ) :
+            ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: state.chatRooms.length,
               itemBuilder: (context, index) {

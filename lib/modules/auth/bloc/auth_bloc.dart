@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           _delegate.onSuccess();
         }
          else {
-          _delegate.onError("Terjadi kesalahan");
+          _delegate.onError(data.message ?? "");
         }
       } catch (ex) {
         _delegate.onError("Terjadi kesalahan : $ex");
@@ -38,7 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           _repository.writeSecureTokenData('email', event.email);
           _delegate.onSuccess();
         } else {
-          _delegate.onError("Terjadi kesalahan");
+          _delegate.onError(data.message ?? "");
         }
       } catch (ex) {
         _delegate.onError("Terjadi kesalahan : $ex");

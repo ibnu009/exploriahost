@@ -24,7 +24,7 @@ class NotificationResponse {
         status: json["status"],
         rowCount: json["row_count"],
         message: json["message"],
-        data: List<Notifications>.from(json["data"].map((x) => Notifications.fromJson(x))),
+        data: json["data"] == null ? [] : List<Notifications>.from(json["data"].map((x) => Notifications.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
