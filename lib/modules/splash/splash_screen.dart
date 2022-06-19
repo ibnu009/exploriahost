@@ -58,9 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Image.asset(
-          'assets/logoexploria.png',
-          height: 80,
-        ),
+          'assets/launcher_exploria_host.png'),
       ),
     );
   }

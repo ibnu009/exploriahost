@@ -1,7 +1,10 @@
 import 'package:exploriahost/core/network/request/create_experience_request.dart';
+import 'package:exploriahost/modules/area/screen/city_picker_screen.dart';
+import 'package:exploriahost/modules/area/screen/province_picker_screen.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/experience/screens/add/success_add_experience_screen.dart';
+import 'package:exploriahost/ui/component/button/field_button.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
 import 'package:exploriahost/ui/component/dropdown/exploria_dropdown_value.dart';
@@ -34,8 +37,10 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
   late ExperienceBloc _bloc;
 
   final _formKey = GlobalKey<FormState>();
-  String _selectedItemProvince = initialProvinceItem;
-  String _selectedItemCity = initialCityItem;
+  String _selectedItemProvince = "Belum Memilih";
+  int _selectedProvinceId = -1;
+  int _selectedCityId = -1;
+  String _selectedItemCity = "Belum Memilih";
   double? _markedLatitude, _markedLongitude;
   List<Marker> myMarker = [];
 
@@ -103,28 +108,23 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
               const ExploriaGenericTextInputHint(
                 text: "Provinsi*",
               ),
-              ExploriaGenericDropdown(
-                  selectedItem: _selectedItemProvince,
-                  items: provinceItems,
-                  onChanged: (String? newVal) {
-                    setState(() {
-                      _selectedItemProvince = newVal ?? "";
-                    });
-                  }),
+              InkWell(
+                  onTap: () => _initiateProvincePicker(),
+                  child: ExploriaFieldButton(title: _selectedItemProvince)),
               const SizedBox(
                 height: 16,
               ),
               const ExploriaGenericTextInputHint(
                 text: "Kabupaten/Kota*",
               ),
-              ExploriaGenericDropdown(
-                  selectedItem: _selectedItemCity,
-                  items: cityItems,
-                  onChanged: (String? newVal) {
-                    setState(() {
-                      _selectedItemCity = newVal ?? "";
-                    });
-                  }),
+              InkWell(
+                  onTap: () {
+                    if (_selectedProvinceId < 0) {
+                      return;
+                    }
+                    _initiateCityPicker(_selectedProvinceId);
+                  },
+                  child: ExploriaFieldButton(title: _selectedItemCity)),
               const SizedBox(
                 height: 16,
               ),
@@ -226,6 +226,17 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
   }
 
   void _createExperience() {
+
+    if (_selectedProvinceId < 0){
+      showOkDialog(context, "Peringatan", "Kamu belum memilih provinsi");
+      return;
+    }
+
+    if (_selectedCityId < 0){
+      showOkDialog(context, "Peringatan", "Kamu belum memilih kabupaten");
+      return;
+    }
+
     CreateExperienceRequest data = widget.createExperienceRequest;
     CreateExperienceRequest newData = CreateExperienceRequest(
         name: data.name,
@@ -237,12 +248,44 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
         facilities: data.facilities,
         otherExperience: data.otherExperience,
         address: _addressController.text,
-        provinceId: 15,
-        cityId: 33,
+        provinceId: _selectedProvinceId,
+        cityId: _selectedCityId,
         latitude: _markedLatitude,
         longitude: _markedLongitude);
 
     _bloc.add(CreateExperience(request: newData, delegate: this));
+  }
+
+  Future<void> _initiateProvincePicker() async {
+    var result = await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => const ProvincePickerScreen(),
+      ),
+    );
+
+    if (result != null || result != "") {
+      setState(() {
+        _selectedProvinceId = result['provinceId'] as int;
+        _selectedItemProvince = result['name'] as String;
+      });
+    }
+  }
+
+  Future<void> _initiateCityPicker(int provinceId) async {
+    var result = await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => CityPickerScreen(provinceId: provinceId),
+      ),
+    );
+
+    if (result != null || result != "") {
+      setState(() {
+        _selectedCityId = result['cityId'] as int;
+        _selectedItemCity = result['name'] as String;
+      });
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:exploriahost/modules/experience/bloc/experience_bloc.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_event.dart';
 import 'package:exploriahost/modules/experience/bloc/experience_state.dart';
 import 'package:exploriahost/modules/experience/screens/detail/detail_experience_others_screen.dart';
+import 'package:exploriahost/ui/component/button/field_button.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
@@ -126,13 +127,15 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> with Ge
                   CupertinoPageRoute(
                     builder: (c) => DetaiLExperienceOtherScreen(
                       appBarText: "Experience Lainnya",
-                      data: _getOtherExperience(detailExperience.otherExperiences),
+                      data: _getOtherExperience(
+                          detailExperience.otherExperiences),
                     ),
                   ),
                 );
               },
-              child: _buildDetailExperienceFieldButton(
-                  "Terdapat ${_getOtherExperience(detailExperience.otherExperiences).length} Experiences")),
+              child: ExploriaFieldButton(
+                  title:
+                      "Terdapat ${_getOtherExperience(detailExperience.otherExperiences).length} Experiences")),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: ExploriaGenericTextInputHint(text: "Fasilitas"),
@@ -149,8 +152,10 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> with Ge
                   ),
                 );
               },
-              child: _buildDetailExperienceFieldButton(
-                  "Terdapat ${_getFacilities(detailExperience.facilities).length} Fasilitas Tambahan")),
+              child: ExploriaFieldButton(
+                title:
+                    "Terdapat ${_getFacilities(detailExperience.facilities).length} Fasilitas Tambahan",
+              )),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: ExploriaGenericTextInputHint(text: "Review Experience"),
@@ -161,7 +166,7 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> with Ge
                     "Belum ada review pada experience mu");
               },
               child:
-                  _buildDetailExperienceFieldButton("Lihat Review Experience")),
+                  const ExploriaFieldButton(title: "Lihat Review Experience")),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0),
             child: exploriaPrimaryButton(
@@ -170,35 +175,19 @@ class _DetailExperienceScreenState extends State<DetailExperienceScreen> with Ge
                 color: Colors.red,
                 isEnabled: true,
                 onPressed: () {
-                  showYesNoDialog(context, "Peringatan", "Yakin untuk menghapus experience ini?", (){
-                    Navigator.pop(context);
-                    _bloc.add(DeleteExperience(detailExperience.uuidExperience, this));
-                  }, () => Navigator.of(context).pop(),);
+                  showYesNoDialog(
+                    context,
+                    "Peringatan",
+                    "Yakin untuk menghapus experience ini?",
+                    () {
+                      Navigator.pop(context);
+                      _bloc.add(DeleteExperience(
+                          detailExperience.uuidExperience, this));
+                    },
+                    () => Navigator.of(context).pop(),
+                  );
                 }),
           )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailExperienceFieldButton(String title) {
-    return Container(
-      height: 50,
-      alignment: Alignment.centerLeft,
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.black38)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ExploriaGenericTextInputHint(text: title),
-          const Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.arrow_forward_ios_outlined),
-          ),
         ],
       ),
     );

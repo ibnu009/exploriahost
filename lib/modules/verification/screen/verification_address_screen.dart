@@ -1,5 +1,8 @@
 import 'package:exploriahost/core/network/request/verify_profile_request.dart';
+import 'package:exploriahost/modules/area/screen/city_picker_screen.dart';
+import 'package:exploriahost/modules/area/screen/province_picker_screen.dart';
 import 'package:exploriahost/modules/verification/screen/verification_photo_screen.dart';
+import 'package:exploriahost/ui/component/button/field_button.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
 import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
@@ -25,9 +28,12 @@ class VerificationAddresscreen extends StatefulWidget {
 
 class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _provinceController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
   final TextEditingController _kodePosController = TextEditingController();
+
+  String _selectedItemProvince = "Belum Memilih";
+  int _selectedProvinceId = -1;
+  int _selectedCityId = -1;
+  String _selectedItemCity = "Belum Memilih";
 
   late String name, headline, phone, desc;
 
@@ -77,17 +83,20 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
               const ExploriaGenericTextInputHint(
                 text: "Provinsi*",
               ),
-              ExploriaGenericTextInput(
-                  controller: _provinceController,
-                  inputType: TextInputType.text,
-                  maxLines: 1),
+              InkWell(
+                  onTap: () => _initiateProvincePicker(),
+                  child: ExploriaFieldButton(title: _selectedItemProvince)),
               const ExploriaGenericTextInputHint(
                 text: "Kabupaten/Kota*",
               ),
-              ExploriaGenericTextInput(
-                  controller: _cityController,
-                  inputType: TextInputType.text,
-                  maxLines: 1),
+              InkWell(
+                  onTap: () {
+                    if (_selectedProvinceId < 0) {
+                      return;
+                    }
+                    _initiateCityPicker(_selectedProvinceId);
+                  },
+                  child: ExploriaFieldButton(title: _selectedItemCity)),
               const ExploriaGenericTextInputHint(
                 text: "Kode Pos*",
               ),
@@ -116,7 +125,7 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
                     if (_formKey.currentState!.validate()) {
                       VerifyProfileRequest request = VerifyProfileRequest(
                         address:
-                            '${_provinceController.text}, ${_cityController.text}, ${_addressController.text}, ${_kodePosController.text}',
+                            '$_selectedItemProvince, $_selectedItemCity, ${_addressController.text}, ${_kodePosController.text}',
                         phone: phone,
                         description: desc,
                         fullName: name,
@@ -141,5 +150,37 @@ class _VerificationAddresscreenState extends State<VerificationAddresscreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _initiateProvincePicker() async {
+    var result = await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => const ProvincePickerScreen(),
+      ),
+    );
+
+    if (result != null || result != "") {
+      setState(() {
+        _selectedProvinceId = result['provinceId'] as int;
+        _selectedItemProvince = result['name'] as String;
+      });
+    }
+  }
+
+  Future<void> _initiateCityPicker(int provinceId) async {
+    var result = await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => CityPickerScreen(provinceId: provinceId),
+      ),
+    );
+
+    if (result != null || result != "") {
+      setState(() {
+        _selectedCityId = result['cityId'] as int;
+        _selectedItemCity = result['name'] as String;
+      });
+    }
   }
 }
