@@ -28,6 +28,7 @@ class ExploriaTheme {
   static const Color alert = Color(0xffED6363);
   static const Color redColor = Color(0xffF30A0A);
   static const Color primaryColorBrighter = Color(0xFFD7F4E6);
+  static const Color primaryColorVeryBrighter = Color(0xFFEAF9F2);
   static const Color lightGrey = Color(0xffE8E5E5);
   static const Color yellowStar = Color(0xffFCAE03);
   static const Color borderColor = Color(0xFFCECECE);
