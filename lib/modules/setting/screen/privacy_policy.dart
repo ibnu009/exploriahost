@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);
@@ -9,6 +12,11 @@ class PrivacyPolicy extends StatefulWidget {
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
+
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +36,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 color: ExploriaTheme.primaryColor,
               )),
         ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-            )
+        body: WebView(
+          initialUrl: 'https://jelajahin.com/kebijakan-privasi.html',
+          javascriptMode: JavascriptMode.unrestricted,
         )
     );
   }

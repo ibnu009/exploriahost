@@ -1,3 +1,4 @@
+import 'package:exploriahost/ui/component/expansion/exploria_expansion_panel.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,6 @@ class FrequentlyAskQuestion extends StatefulWidget {
 }
 
 class _FrequentlyAskQuestionState extends State<FrequentlyAskQuestion> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,10 +28,10 @@ class _FrequentlyAskQuestionState extends State<FrequentlyAskQuestion> {
                 color: ExploriaTheme.primaryColor,
               )),
         ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-            )
-        )
+        body: Padding(
+          padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+            child: ExploriaExpansionPanel()
+        ),
     );
   }
 }

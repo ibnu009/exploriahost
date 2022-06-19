@@ -1,5 +1,6 @@
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsAndCondition extends StatefulWidget {
   const TermsAndCondition({Key? key}) : super(key: key);
@@ -28,9 +29,9 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                 color: ExploriaTheme.primaryColor,
               )),
         ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-            )
+        body: WebView(
+          initialUrl: 'https://jelajahin.com/syarat-ketentuan.html',
+          javascriptMode: JavascriptMode.unrestricted,
         )
     );
   }
