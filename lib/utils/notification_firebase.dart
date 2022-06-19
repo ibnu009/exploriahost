@@ -72,7 +72,8 @@ Future showNotification(RemoteMessage message, FlutterLocalNotificationsPlugin f
             icon: '@mipmap/ic_launcher',
             enableVibration: true,
             importance: Importance.high,
-            priority: Priority.high, playSound: true
+            priority: Priority.high, playSound: true,
+          styleInformation: const BigTextStyleInformation(''),
         ),
         iOS: const IOSNotificationDetails(presentAlert: true, presentSound: true, presentBadge: true),
       ), payload: '');

@@ -24,6 +24,7 @@ class ScheduleRepository extends NetworkService {
   Future<ScheduleItemResponse> fetchSchedules() async {
     String? readData = await storage.read(key: 'token') ?? "";
 
+    print("TOkennya $readData");
     var header = {contentType: applicationJson, token: readData};
 
     var map = await getMethod("$BASE_URL/api/host/schedule", header);

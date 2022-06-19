@@ -7,6 +7,7 @@ import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'bloc/notification_state.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -68,18 +69,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          backgroundColor: Colors.white24,
-          title: Text(
-              "Notifikasi",
-              style: ExploriaTheme.smallTitle
-          ),
+          backgroundColor: ExploriaTheme.primaryColor,
+          title: Text("Notifikasi", style: ExploriaTheme.smallTitle.copyWith(color: Colors.white)),
           leading: InkWell(
               onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (c) => const HomeScreen()));
+                Navigator.pop(context);
               },
               child: const Icon(
                 Icons.arrow_back,
-                color: ExploriaTheme.primaryColor,
+                color: Colors.white,
               )),
         ),
         body: Padding(

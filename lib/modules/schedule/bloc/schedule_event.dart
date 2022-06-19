@@ -10,6 +10,12 @@ class GetScheduleDetail extends ScheduleEvent {
   GetScheduleDetail(this.scheduleUuid);
 }
 
+class OpenChatRoom extends ScheduleEvent {
+  String uuidUser;
+  GenericDelegate delegate;
+  OpenChatRoom(this.uuidUser, this.delegate);
+}
+
 class SetVerificationStatus extends ScheduleEvent {
   String scheduleUuid, status;
   GenericDelegate delegate;

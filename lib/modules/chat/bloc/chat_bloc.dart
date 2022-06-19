@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:exploriahost/core/network/response/chat/chat_message_response.dart';
 import 'package:exploriahost/core/repository/chat_repository.dart';
 import 'package:exploriahost/modules/chat/bloc/chat_even.dart';
 import 'package:exploriahost/modules/chat/bloc/chat_state.dart';
@@ -7,6 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   late ChatRepository _repository;
   late GenericDelegate _delegate;
+
+  final List<ChatMessage> _chats = [];
+  final duration = const Duration(seconds: 30);
+
+  final _chatStreamController = StreamController<List<ChatMessage>>.broadcast();
+
+  StreamSink<List<ChatMessage>> get _liveChatController =>
+      _chatStreamController.sink;
+
+  Stream<List<ChatMessage>> get liveChats => _chatStreamController.stream;
 
   ChatBloc() : super(InitChatState()) {
     _repository = ChatRepository.instance;
@@ -25,14 +38,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<GetChatMessages>((event, emit) async {
       emit(ShowLoadingChat());
-      print("Chat Room is ${event.uuidChatRoom}");
       var data = await _repository.fetchChatMessages(event.uuidChatRoom);
       if (data.status == 200) {
-        if (data.rowCount > 0) {
-          emit(ShowChatMessages(data.data));
-        } else {
-          emit(ShowEmptyChatMessages());
-        }
+        _chats.addAll(data.data);
+        _liveChatController.add(_chats);
+        emit(ShowChatMessages(data.data));
       } else {}
     });
 
@@ -48,6 +58,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     });
 
     on<SendChat>((event, emit) async {
+      _chats.add(
+        ChatMessage(
+          message: event.message,
+          senderEmail: event.email,
+          createdDate: DateTime.now(),
+        ),
+      );
+
+      _liveChatController.add(_chats);
       var data = await _repository.sendMessage(
           event.email, event.message, event.uuidChatRoom);
       if (data.status == 201) {
@@ -56,5 +75,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         print(data.message);
       }
     });
+  }
+
+  void dispose() {
+    _chatStreamController.close();
   }
 }

@@ -38,13 +38,13 @@ class ChatMessageResponse {
 
 class ChatMessage {
   ChatMessage({
-    required this.id,
+    this.id,
     required this.message,
     required this.senderEmail,
     required this.createdDate,
   });
 
-  int id;
+  int? id;
   String message;
   String senderEmail;
   DateTime createdDate;

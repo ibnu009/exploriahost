@@ -1,4 +1,5 @@
 import 'package:exploriahost/core/network/response/schedule/schedule_detail_response.dart';
+import 'package:exploriahost/modules/chat/screen/chat_room_screen.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_bloc.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_event.dart';
 import 'package:exploriahost/modules/schedule/bloc/schedule_state.dart';
@@ -12,6 +13,7 @@ import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
 import 'package:exploriahost/utils/date_time_ext.dart';
 import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:exploriahost/utils/int_ext.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +30,8 @@ class DetailScheduleScreen extends StatefulWidget {
 class _DetailScheduleScreenState extends State<DetailScheduleScreen>
     with GenericDelegate {
   late ScheduleBloc _bloc;
+
+  String _userName = "";
 
   @override
   void initState() {
@@ -96,6 +100,10 @@ class _DetailScheduleScreenState extends State<DetailScheduleScreen>
           child: Divider(thickness: 1, color: Colors.black38),
         ),
         BuildUserCard(
+            onTapChat: () {
+              _userName = scheduleDetail.nameUser;
+              _bloc.add(OpenChatRoom(scheduleDetail.uuidUser, this));
+            },
             image: scheduleDetail.imageUser ?? "",
             name: scheduleDetail.nameUser,
             uuidUser: scheduleDetail.uuidUser),
@@ -237,6 +245,19 @@ class _DetailScheduleScreenState extends State<DetailScheduleScreen>
 
   @override
   void onSuccess(String message) {
+    if (message.contains("-")) {
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (c) => ChatRoomScreen(
+            name: _userName,
+            uuidChatRoom: message,
+          ),
+        ),
+      );
+      return;
+    }
+
     showSuccessDialog(
         context: context,
         title: "Success",
