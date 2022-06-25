@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 void chooseImage(
     {required BuildContext context,
     required Function() onTapGallery,
-    required Function() onTapCamera}) {
+    required Function() onTapCamera,
+      Function()? onTapFullScreen}) {
   showDialog(
       context: context,
       builder: (ctx) => Padding(
@@ -36,7 +37,18 @@ void chooseImage(
                           Text("Dari Galeri", style: TextStyle(fontSize: 16))
                         ]),
                       ),
-                    )
+                    ),
+                    onTapFullScreen != null ? InkWell(
+                      onTap: onTapFullScreen,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(children: const [
+                          Icon(Icons.fullscreen, size: 24, color: Colors.black),
+                          SizedBox(width: 16),
+                          Text("Lihat Foto", style: TextStyle(fontSize: 16))
+                        ]),
+                      ),
+                    ) : const SizedBox()
                   ],
                 ),
               ),

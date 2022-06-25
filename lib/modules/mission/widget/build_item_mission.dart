@@ -1,16 +1,19 @@
+import 'package:exploriahost/core/network/response/mission/mission_response.dart';
 import 'package:exploriahost/modules/mission/screen/mission_detail.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/date_time_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildItemMission extends StatelessWidget {
-  const BuildItemMission({Key? key}) : super(key: key);
+  final Mission mission;
+  const BuildItemMission({Key? key, required this.mission}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, CupertinoPageRoute(builder: (c) => const MissionDetailScreen()));
+        Navigator.push(context, CupertinoPageRoute(builder: (c) => MissionDetailScreen(mission: mission)));
       },
       child: Card(
         elevation: 3,
@@ -25,11 +28,11 @@ class BuildItemMission extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Mengunjungi Kafe Skala dan Mendokumentasi sekitar Kafe", style: ExploriaTheme.smallTitle, maxLines: 3, overflow: TextOverflow.ellipsis),
+              Text(mission.name, style: ExploriaTheme.smallTitle, maxLines: 3, overflow: TextOverflow.ellipsis),
               const SizedBox(height: 8,),
-              Text("25 pts ", style: ExploriaTheme.priceTextStyle),
+              Text("${mission.point} pts ", style: ExploriaTheme.priceTextStyle),
               const SizedBox(height: 8,),
-              Text("Deadline : Rabu, 1 Juni 2022 ", style: ExploriaTheme.smallTitleRed.copyWith(fontWeight: FontWeight.w300)),
+              Text("Deadline : ${mission.deadline.convertToExploriaDateAndHour()}", style: ExploriaTheme.smallTitleRed.copyWith(fontWeight: FontWeight.w300)),
               const SizedBox(height: 20,),
             ],
           ),

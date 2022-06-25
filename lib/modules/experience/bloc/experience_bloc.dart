@@ -13,7 +13,7 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
 
     on<GetEtalaseExperience>((event, emit) async {
       emit(ShowLoading());
-      var data = await _repository.getExperienceEtalase(event.status);
+      var data = await _repository.getExperienceEtalase(event.status); // 2 seconds
       if (data.status == 200) {
         emit(ShowEtalaseExperience(data.data ?? []));
       } else {}

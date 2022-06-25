@@ -19,3 +19,5 @@ class ShowEtalaseExperience extends ExperienceState {
   List<Experience> experiences;
   ShowEtalaseExperience(this.experiences);
 }
+
+class ShowEmptyEtalaseExperience extends ExperienceState {}
