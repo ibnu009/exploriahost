@@ -1,10 +1,11 @@
+import 'package:exploriahost/modules/home/home_screen.dart';
 import 'package:exploriahost/modules/mission/bloc/mission_bloc.dart';
 import 'package:exploriahost/modules/mission/bloc/mission_event.dart';
 import 'package:exploriahost/modules/mission/bloc/mission_state.dart';
 import 'package:exploriahost/modules/mission/widget/build_item_mission.dart';
+import 'package:exploriahost/ui/component/appbar/exploria_custom_generic_appbar.dart';
 import 'package:exploriahost/ui/component/generic/exploria_generic_empty_state_widget.dart';
 import 'package:exploriahost/ui/component/generic/exploria_loading.dart';
-import 'package:exploriahost/ui/component/generic/generic_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,10 +72,27 @@ class _MissionListScreenState extends State<MissionListScreen> {
     );
   }
 
+  void _navigateToHome(){
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(
+          builder: (c) => const HomeScreen(),
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: genericAppbar(context, "Daftar Misi"),
-        body: SafeArea(child: blocListener(blocBuilder())));
+    return WillPopScope(
+      onWillPop: (){
+        _navigateToHome();
+        return Future.value(false);
+      },
+      child: Scaffold(
+          appBar: customGenericAppbar(context, "Daftar Misi",(){
+            _navigateToHome();
+          }),
+          body: SafeArea(child: blocListener(blocBuilder()))),
+    );
   }
 }

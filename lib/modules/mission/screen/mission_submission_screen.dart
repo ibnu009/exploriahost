@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:exploriahost/core/network/request/submit_submission_request.dart';
+import 'package:exploriahost/modules/mission/bloc/mission_bloc.dart';
+import 'package:exploriahost/modules/mission/bloc/mission_event.dart';
 import 'package:exploriahost/modules/mission/screen/feedback_mission_complate.dart';
 import 'package:exploriahost/ui/component/button/primary_button.dart';
+import 'package:exploriahost/ui/component/dialog/dialog_component.dart';
 import 'package:exploriahost/ui/component/generic/generic_appbar.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_place_holder.dart';
 import 'package:exploriahost/ui/component/image/exploria_image_result.dart';
@@ -9,22 +13,28 @@ import 'package:exploriahost/ui/component/input/exploria_generic_text_input.dart
 import 'package:exploriahost/ui/component/map/map_screen.dart';
 import 'package:exploriahost/ui/component/text/exploria_generic_text_input_hint.dart';
 import 'package:exploriahost/ui/theme/exploria_primary_theme.dart';
+import 'package:exploriahost/utils/generic_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MissionSubmissionScreen extends StatefulWidget {
-  const MissionSubmissionScreen({Key? key}) : super(key: key);
+  final String uuidMission;
+  final int point;
+  const MissionSubmissionScreen({Key? key, required this.uuidMission, required this.point})
+      : super(key: key);
 
   @override
   _MissionSubmissionScreenState createState() =>
       _MissionSubmissionScreenState();
 }
 
-class _MissionSubmissionScreenState extends State<MissionSubmissionScreen> {
+class _MissionSubmissionScreenState extends State<MissionSubmissionScreen>
+    with GenericDelegate {
   File? image;
   File? imageSelfie;
+  late MissionBloc _bloc;
 
   final TextEditingController _merchantNameController = TextEditingController();
   final TextEditingController _merchantDescriptionController =
@@ -56,6 +66,12 @@ class _MissionSubmissionScreenState extends State<MissionSubmissionScreen> {
         myMarker.add(initialLocationMarker);
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = MissionBloc();
   }
 
   @override
@@ -150,10 +166,23 @@ class _MissionSubmissionScreenState extends State<MissionSubmissionScreen> {
                   text: 'Selesaikan Misi',
                   isEnabled: true,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (c) => const FeedbackMissionComplate()));
+                    if (imageSelfie == null ||
+                        image == null ||
+                        _markedLongitude == null ||
+                        _markedLatitude == null) {
+                      return;
+                    }
+
+                    SubmitSubmissionRequest request = SubmitSubmissionRequest(
+                        name: _merchantNameController.text,
+                        description: _merchantDescriptionController.text,
+                        address: _merchantDescriptionController.text,
+                        uuidMission: widget.uuidMission,
+                        latitude: _markedLatitude ?? 0.0,
+                        longitude: _markedLongitude ?? 0.0);
+
+                    _bloc.add(SubmitMissionSubmission(
+                        request, this, imageSelfie!, image!));
                   }),
             )
           ],
@@ -258,5 +287,45 @@ class _MissionSubmissionScreenState extends State<MissionSubmissionScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void onError(String message) {
+    showFailedDialog(
+        context: context,
+        title: "Gagal",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });  }
+
+  @override
+  void onLoading() {
+    showLoadingDialog(context: context);
+  }
+
+  @override
+  void onSuccess(String message) {
+    showSuccessDialog(
+        context: context,
+        title: "Berhasil",
+        message: message,
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (c) => FeedbackMissionComplete(point: widget.point,),
+            ),
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 }

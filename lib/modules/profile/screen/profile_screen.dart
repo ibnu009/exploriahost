@@ -1,9 +1,7 @@
 import 'package:exploriahost/core/network/response/profile/host_profile.dart';
 import 'package:exploriahost/core/repository/user_repository.dart';
 import 'package:exploriahost/modules/auth/login/screen/LoginScreen.dart';
-import 'package:exploriahost/modules/auth/login/screen/LoginScreen.dart';
 import 'package:exploriahost/modules/home/home_screen.dart';
-import 'package:exploriahost/modules/pencairan_saldo/screen/tarik_saldo.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_bloc.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_event.dart';
 import 'package:exploriahost/modules/profile/bloc/profile_state.dart';
@@ -23,7 +21,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -72,25 +69,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          "Akun",
-          style: TextStyle(color: Colors.white, fontSize: 14),
+    return WillPopScope(
+      onWillPop: () {
+        _navigateToHome();
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            "Akun",
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
+          leading: InkWell(
+              onTap: () => _navigateToHome(),
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
         ),
-        leading: InkWell(
-            onTap: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (c) => const HomeScreen()));
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        body: SafeArea(
+          child: blocListener(blocBuilder()),
+        ),
       ),
-      body: SafeArea(
-        child: blocListener(blocBuilder()),
+    );
+  }
+
+  void _navigateToHome() {
+    Navigator.pushReplacement(
+      context,
+      CupertinoPageRoute(
+        builder: (c) => const HomeScreen(),
       ),
     );
   }
@@ -130,32 +140,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _buildSettingSubSection("Ubah Alamat", () => null),
           _buildDivider(),
           _buildSettingSubSection("Ubah Password", () {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (c) => EditPasswordProfile()));
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (c) => const EditPasswordProfile()));
           }),
           _buildDivider(),
           _buildSettingParentSection("Pengaturan Aplikasi"),
           _buildDivider(),
           _buildSettingSubSection("Pengaturan Notifikasi", () {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (c) => SettingNotification()));
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (c) => const SettingNotification()));
           }),
           _buildDivider(),
           _buildSettingSubSection("Laporkan Masalah", () {
-            Navigator.push(
-                context, CupertinoPageRoute(builder: (c) => ReportProblems()));
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (c) => const ReportProblems()));
           }),
           _buildDivider(),
           _buildSettingParentSection("Kebijakan dan Pertanyaan"),
           _buildDivider(),
           _buildSettingSubSection("Kebijakan Aplikasi", () {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (c) => ApplicationPolicyScreen()));
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (c) => const ApplicationPolicyScreen()));
           }),
           _buildDivider(),
           _buildSettingSubSection("FAQ", () {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (c) => FrequentlyAskQuestion()));
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (c) => const FrequentlyAskQuestion()));
           }),
           _buildDivider(),
           exploriaPrimaryButton(

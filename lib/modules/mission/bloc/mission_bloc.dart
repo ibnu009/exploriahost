@@ -26,7 +26,18 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<CheckHostContributionStatus>((event, emit) async {
       emit(ShowLoadingMission());
       var data = await _repository.checkHostContributionStatus(event.uuidMission);
-      emit(ShowMissionDetail((data.message ?? "") == "001"));
+      emit(ShowMissionDetail(data.message == "000"));
+    });
+
+    on<SubmitMissionSubmission>((event, emit) async {
+      _delegate = event.delegate;
+      _delegate.onLoading();
+      var data = await _repository.submitSubmission(event.request, event.selfieImage, event.dataImage);
+      if (data.status == 201 || data.status == 200){
+        _delegate.onSuccess(data.message ?? "");
+      } else {
+        _delegate.onError(data.message ?? "");
+      }
     });
   }
 }
