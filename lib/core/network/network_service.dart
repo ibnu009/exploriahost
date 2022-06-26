@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:logger/logger.dart';
 
-const BASE_URL = 'https://5599-2001-448a-5122-69e-b410-3056-64ca-a06b.ngrok.io';
+const BASE_URL = 'https://api.jelajahin.com/';
 
 abstract class NetworkService {
   final logger = Logger(printer: PrettyPrinter());

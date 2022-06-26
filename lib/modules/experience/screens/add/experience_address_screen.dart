@@ -153,7 +153,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
                   Visibility(
                     visible: _markedLatitude != null,
                     child: InkWell(
-                      onTap: () => _initiateToLocationPicker(),
+                      onTap: () => _initiateToLocationPicker(true),
                       child: const Text(
                         "Ubah Lokasi", style: TextStyle(color: ExploriaTheme.primaryColor, fontWeight: FontWeight.w600, fontSize: 16),
                       ),
@@ -170,7 +170,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
                   context: context,
                   text: 'Tambahkan Pin Point',
                   isEnabled: true,
-                  onPressed: () => _initiateToLocationPicker())
+                  onPressed: () => _initiateToLocationPicker(false))
                   : _buildAddressMap(),
               const SizedBox(
                 height: 24,
@@ -194,7 +194,7 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
     );
   }
 
-  Future<void> _initiateToLocationPicker() async {
+  Future<void> _initiateToLocationPicker(bool isEditLocation) async {
     var result = await Navigator.push(
       context,
       CupertinoPageRoute(
@@ -206,6 +206,24 @@ class _ExperienceAddresscreenState extends State<ExperienceAddresscreen>
       setState(() {
         _markedLatitude = result['latitude'] as double;
         _markedLongitude = result['longitude'] as double;
+
+        if (isEditLocation) {
+          Marker initialLocationMarker = Marker(
+            draggable: true,
+            markerId: const MarkerId("1"),
+            position: LatLng(_markedLatitude ?? 0.0, _markedLongitude ?? 0.0),
+            icon: BitmapDescriptor.defaultMarker,
+          );
+          myMarker.add(initialLocationMarker);
+          mapController.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                  target:
+                  LatLng(_markedLatitude ?? 0.0, _markedLongitude ?? 0.0),
+                  zoom: 15),
+            ),
+          );
+        }
       });
     }
   }
